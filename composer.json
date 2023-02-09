@@ -1,0 +1,40 @@
+{
+    "name": "jsw/sapphire",
+    "authors": [
+        {
+            "name": "Jan Stanley Watt",
+            "email": "github@mail.whojinn.com"
+        }
+    ],
+    "keywords": [
+        "markdown",
+        "extension",
+        "md",
+        "commonmark"
+    ],
+    "description": "League/commonmark extension for japanese furigana.",
+    "license": "Apache-2.0",
+    "readme": "README.md",
+    "require-dev": {
+        "league/commonmark": "^2.3",
+        "noi/parsedown-rubytext": "^0.9.3",
+        "phpunit/phpunit": "^9.5",
+        "friendsofphp/php-cs-fixer": "^3.14"
+    },
+    "autoload": {
+        "psr-4": {
+            "JSW\\Sapphire\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JSW\\Test\\": "test/"
+        }
+    },
+    "suggest": {
+        "jsw/danraku": "League/commonmark extension for japanese danraku style."
+    },
+    "scripts": {
+        "test": "/.vendor/bin/phpunit test"
+    }
+}
