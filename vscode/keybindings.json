@@ -1,0 +1,45 @@
+// Copyright 2021 whojinn
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+// limitations under the License.
+
+[
+    // 使い方: こちらの内容を使用中のキーバインドファイルにコピペしてください。
+
+    {
+        // keybindings.jsonの設定を有効にすると、Ctrl+rでスニペット「aozora_ruby」を実行するようになる
+        // 条件は以下の3つ:
+        // 編集画面を選択中
+        // 編集しているファイルをMarkdownとVS Codeが認識している
+        // ファイルは読み取り専用**ではない**
+        "label": "TypeAozoraRuby",
+        "key": "ctrl+r",
+        "command": "editor.action.insertSnippet",
+        "args": {
+            "langId": "markdown",
+            "name": "aozora_ruby"
+        },
+        "when": "editorTextFocus && !editorReadonly && editorLangId == 'markdown'"
+    },
+    {
+        // 文字を選択した状態でCtrl+rを入力すると、「aozora_ruby_separate」が実行される
+        // 条件は「aozora_ruby」に準ずる
+        "label": "TypeAozoraRubySeparate",
+        "key": "ctrl+r",
+        "command": "editor.action.insertSnippet",
+        "args": {
+            "langId": "markdown",
+            "name": "aozora_ruby_separate"
+        },
+        "when": "editorTextFocus && editorHasSelection　&& !editorReadonly && editorLangId == 'markdown'"
+    }
+]
