@@ -8,3 +8,4 @@ phpunit.xml
 .phpunit.cache
 tmp
 composer.lock
+debug.php
