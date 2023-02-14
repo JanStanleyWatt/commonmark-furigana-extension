@@ -20,9 +20,11 @@ declare(strict_types=1);
 
 namespace JSW\Sapphire;
 
+use JSW\Sapphire\Event\SapphirePostParseDispatcher;
 use JSW\Sapphire\Parser\SapphireOpenParser;
 use JSW\Sapphire\Util\SapphireKugiri;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
+use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Extension\ConfigurableExtensionInterface;
 use League\Config\ConfigurationBuilderInterface;
 use Nette\Schema\Expect;
@@ -42,9 +44,20 @@ final class SapphireExtension implements ConfigurableExtensionInterface
     public function register(EnvironmentBuilderInterface $environment): void
     {
         $patterns = new SapphireKugiri();
+        $priority = 100;
 
+        // JSW\Sapphire\Util\SapphireKugiriのパターンをパーサーに注入する
         foreach ($patterns->getKugiri() as $pattern) {
-            $environment->addInlineParser(new SapphireOpenParser($pattern));
+            $environment->addInlineParser(new SapphireOpenParser($pattern), $priority);
+            $priority -= 10;
+        }
+        
+        $class = DocumentParsedEvent::class;
+        $dispatch = new SapphirePostParseDispatcher();
+        $config = $environment->getConfiguration();
+
+        if ($config->get('sapphire/use_sutegana')) {
+            $environment->addEventListener($class, [$dispatch, 'useSutegana']);
         }
     }
 }
