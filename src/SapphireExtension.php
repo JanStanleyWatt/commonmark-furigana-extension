@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace JSW\Sapphire;
 
+use JSW\Sapphire\Parser\SapphireOpenParser;
+use JSW\Sapphire\Util\SapphireKugiri;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Extension\ConfigurableExtensionInterface;
 use League\Config\ConfigurationBuilderInterface;
@@ -39,5 +41,10 @@ final class SapphireExtension implements ConfigurableExtensionInterface
 
     public function register(EnvironmentBuilderInterface $environment): void
     {
+        $patterns = new SapphireKugiri();
+
+        foreach ($patterns->getKugiri() as $pattern) {
+            $environment->addInlineParser(new SapphireOpenParser($pattern));
+        }
     }
 }
