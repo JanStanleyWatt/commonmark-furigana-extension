@@ -24,7 +24,7 @@ class SapphireKugiri
 {
     /**
      * 親文字の区切りパターンを収めた配列。
-     * 区切りパターンはnoisan氏の以下のコードの内、626行目から695行目までを借用し、
+     * 区切りパターンはnoisan氏の以下のコードの内、619行目から695行目までを借用し、
      * この拡張機能用にパターンを少し変更しました。
      *
      * Copyright (c) 2015 Akihiro Yamanoi
@@ -50,6 +50,12 @@ class SapphireKugiri
      * @see https://github.com/noisan/parsedown-rubytext/blob/master/lib/Parsedown/AozoraRubyTextTrait.php
      */
     private $kugiri = [
+        /* 範囲指定パターン:
+         *   - 全角"｜"を使った明示的な範囲指定。文字種に関係なく親文字を指定できる。
+         *   - t2hs.rbの実装では半角"|"での代用を許していない。
+         *   - このExtensionでもそれに従っておく。
+         */
+        'delimited' => '(?<!\\\)｜(.+?)',
         /* 漢字グループ:
          *   - 青空文庫では「仝々〆〇ヶ\x{303B}」も漢字として扱うと明記している(\x{303B}は二の字点)。
          *     @see http://www.aozora.gr.jp/KOSAKU/MANUAL_2.html#ruby

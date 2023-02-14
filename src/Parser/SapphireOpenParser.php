@@ -73,7 +73,9 @@ final class SapphireOpenParser implements InlineParserInterface
         }
 
         // 区切り文字を入れた親文字を登録
-        $parent = '｜'.$cursor->getPreviousText();
+        $parent = false === mb_strpos($cursor->getPreviousText(), '｜')
+                ? '｜'.$cursor->getPreviousText()
+                : $cursor->getPreviousText();
         $container->appendChild(new Text($parent, ['delim' => true]));
 
         // <rt>タグを挿入
