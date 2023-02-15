@@ -52,7 +52,7 @@ final class SapphireExtension implements ConfigurableExtensionInterface
         // JSW\Sapphire\Util\SapphireKugiriのパターンをパーサに注入する
         foreach ($patterns->getKugiri() as $pattern) {
             $environment->addInlineParser(new SapphireOpenParser($pattern), $priority);
-            $priority -= 10;
+            --$priority;
         }
 
         // 区切り文字プロセサ登録
