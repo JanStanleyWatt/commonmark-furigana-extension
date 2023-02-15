@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace JSW\Sapphire\Parser;
 
-use JSW\Sapphire\Node\RTNode;
+use League\CommonMark\Delimiter\Delimiter;
 use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
@@ -57,31 +57,15 @@ final class SapphireOpenParser implements InlineParserInterface
             return false;
         }
 
-        // 親文字を抽出
-        $cursor->match('/'.$this->regex_pattern.'/u');
-
-        /**
-         * 対応する閉じかっこ（》）がない場合、他の開きかっこ（《）があった場合は
-         * restoreしてfalseを返す。
-         */
-        $will = $cursor->getRemainder();
-        $kakko_match = preg_match('/.*?《/u', $will, $unused, 0, strlen('《'));
-        if ($kakko_match) {
-            $cursor->restoreState($state);
-
-            return false;
+        if ('｜' === $cursor->getCurrentCharacter()) {
+            $inlineContext->getCursor()->advance();
         }
 
-        // 区切り文字を入れた親文字を登録
-        $parent = false === mb_strpos($cursor->getPreviousText(), '｜')
-                ? '｜'.$cursor->getPreviousText()
-                : $cursor->getPreviousText();
-        $container->appendChild(new Text($parent, ['delim' => true]));
+        $node = new Text('｜', ['delim' => true]);
+        $container->appendChild($node);
 
-        // <rt>タグを挿入
-        $cursor->advance();
-        $cursor->match('/.*?(?=》)/u');
-        $container->appendChild(new RTNode($cursor->getPreviousText()));
+        $delimiter = new Delimiter('｜', 1, $node, true, false, $inlineContext->getCursor()->getPosition());
+        $inlineContext->getDelimiterStack()->push($delimiter);
 
         return true;
     }
