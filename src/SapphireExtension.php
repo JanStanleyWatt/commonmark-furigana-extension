@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace JSW\Sapphire;
 
+use JSW\Sapphire\Delimiter\SapphireDelimiterProcesser;
 use JSW\Sapphire\Event\SapphirePostParseDispatcher;
 use JSW\Sapphire\Node\RTNode;
 use JSW\Sapphire\Parser\SapphireOpenParser;
@@ -53,6 +54,9 @@ final class SapphireExtension implements ConfigurableExtensionInterface
             $environment->addInlineParser(new SapphireOpenParser($pattern), $priority);
             $priority -= 10;
         }
+
+        // 区切り文字プロセサ登録
+        $environment->addDelimiterProcessor(new SapphireDelimiterProcesser());
 
         // イベントディスパッチャ登録
         $class = DocumentParsedEvent::class;
