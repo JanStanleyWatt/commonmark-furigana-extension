@@ -50,11 +50,6 @@ final class SapphireOpenParser implements InlineParserInterface
         $cursor = $inlineContext->getCursor();
         $container = $inlineContext->getContainer();
 
-        // 不正な構文を弾く
-        if ($cursor->isAtEnd() || 0 === $cursor->getPosition()
-        || '｜' === $cursor->peek(-1)) {
-            return false;
-        }
 
         if ('｜' === $cursor->getCurrentCharacter()) {
             $inlineContext->getCursor()->advance();
