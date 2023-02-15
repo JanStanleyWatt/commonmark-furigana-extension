@@ -49,6 +49,7 @@ final class SapphireExtension implements ConfigurableExtensionInterface
         $patterns = new SapphireKugiri();
         $priority = 100;
 
+        // インラインパーサ登録
         // JSW\Sapphire\Util\SapphireKugiriのパターンをパーサに注入する
         foreach ($patterns->getKugiri() as $pattern) {
             $environment->addInlineParser(new SapphireOpenParser($pattern), $priority);
