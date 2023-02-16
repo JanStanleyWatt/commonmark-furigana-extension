@@ -27,18 +27,9 @@ use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\HtmlElement;
 use League\CommonMark\Util\Xml;
 use League\CommonMark\Xml\XmlNodeRendererInterface;
-use League\Config\ConfigurationAwareInterface;
-use League\Config\ConfigurationInterface;
 
-final class RTNodeRenderer implements NodeRendererInterface, XmlNodeRendererInterface, ConfigurationAwareInterface
+final class RTNodeRenderer implements NodeRendererInterface, XmlNodeRendererInterface
 {
-    private ConfigurationInterface $config;
-    
-    public function setConfiguration(ConfigurationInterface $configuration): void
-    {
-        $this->config = $configuration;
-    }
-
     /**
      * @param RTNode $node
      *
