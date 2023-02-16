@@ -47,8 +47,6 @@ final class SapphireCloseParser implements InlineParserInterface, EnvironmentAwa
     {
         $cursor = $inlineContext->getCursor();
         $container = $inlineContext->getContainer();
-        $state = $cursor->saveState();
-        echo $inlineContext->getFullMatch()."\n";
 
         $opener = $inlineContext->getDelimiterStack()->searchByCharacter('｜');
         if (null === $opener) {
