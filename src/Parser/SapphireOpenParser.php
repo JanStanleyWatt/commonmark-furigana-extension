@@ -36,9 +36,9 @@ final class SapphireOpenParser implements InlineParserInterface
     }
 
     /**
-     * 外部のルビ区切りパターンを使ってフックさせる。
+     * 外部のルビ区切りパターンの配列を使ってフックさせる。
      * パターン変更を容易にするとともに、
-     * 配列を使って複数パターンを一括登録させることが出来る。
+     * foreachを使って複数パターンのパーサを一括登録させることが出来る。
      */
     public function getMatchDefinition(): InlineParserMatch
     {
