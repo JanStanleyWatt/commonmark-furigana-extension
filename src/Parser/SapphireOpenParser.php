@@ -62,7 +62,7 @@ final class SapphireOpenParser implements InlineParserInterface
         $node = new Text('｜', ['delim' => true]);
         $container->appendChild($node);
 
-        $delimiter = new Delimiter('｜', 1, $node, true, false, $inlineContext->getCursor()->getPosition());
+        $delimiter = new Delimiter('｜', 1, $node, true, false);
         $inlineContext->getDelimiterStack()->push($delimiter);
 
         return true;
