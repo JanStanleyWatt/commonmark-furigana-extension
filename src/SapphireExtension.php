@@ -24,6 +24,7 @@ use JSW\Sapphire\Delimiter\SapphireDelimiterProcesser;
 use JSW\Sapphire\Event\SapphirePostParseDispatcher;
 use JSW\Sapphire\Node\RTNode;
 use JSW\Sapphire\Node\RubyNode;
+use JSW\Sapphire\Parser\SapphireCloseParser;
 use JSW\Sapphire\Parser\SapphireOpenParser;
 use JSW\Sapphire\Renderer\RTNodeRenderer;
 use JSW\Sapphire\Renderer\RubyNodeRenderer;
@@ -52,6 +53,7 @@ final class SapphireExtension implements ConfigurableExtensionInterface
         $priority = 100;
 
         // インラインパーサ登録
+        $environment->addInlineParser(new SapphireCloseParser(), $priority);
         // JSW\Sapphire\Util\SapphireKugiriのパターンをパーサに注入する
         foreach ($patterns->getKugiri() as $pattern) {
             $environment->addInlineParser(new SapphireOpenParser($pattern), $priority);

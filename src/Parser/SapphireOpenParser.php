@@ -36,9 +36,9 @@ final class SapphireOpenParser implements InlineParserInterface
     }
 
     /**
-     * 外部のルビ区切りパターンを使ってフックさせる。
+     * 外部のルビ区切りパターンの配列を使ってフックさせる。
      * パターン変更を容易にするとともに、
-     * 配列を使って複数パターンを一括登録させることが出来る。
+     * foreachを使って複数パターンのパーサを一括登録させることが出来る。
      */
     public function getMatchDefinition(): InlineParserMatch
     {
@@ -49,11 +49,9 @@ final class SapphireOpenParser implements InlineParserInterface
     {
         $cursor = $inlineContext->getCursor();
         $container = $inlineContext->getContainer();
-        $state = $cursor->saveState();
 
-        // 不正な構文を弾く
-        if ($cursor->isAtEnd() || 0 === $cursor->getPosition()
-        || '｜' === $cursor->peek(-1)) {
+        // 区切り文字スタックに既に開き区切り文字「｜」がある場合は処理を飛ばす
+        if (null !== $inlineContext->getDelimiterStack()->searchByCharacter('｜')) {
             return false;
         }
 
@@ -64,7 +62,7 @@ final class SapphireOpenParser implements InlineParserInterface
         $node = new Text('｜', ['delim' => true]);
         $container->appendChild($node);
 
-        $delimiter = new Delimiter('｜', 1, $node, true, false, $inlineContext->getCursor()->getPosition());
+        $delimiter = new Delimiter('｜', 1, $node, true, false);
         $inlineContext->getDelimiterStack()->push($delimiter);
 
         return true;
