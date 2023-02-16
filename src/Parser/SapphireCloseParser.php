@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace JSW\Sapphire\Parser;
 
+use JSW\Sapphire\Node\RPNode;
 use JSW\Sapphire\Node\RTNode;
 use League\CommonMark\Delimiter\Delimiter;
 use League\CommonMark\Environment\EnvironmentAwareInterface;
@@ -28,10 +29,18 @@ use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
+use League\Config\ConfigurationAwareInterface;
+use League\Config\ConfigurationInterface;
 
-final class SapphireCloseParser implements InlineParserInterface, EnvironmentAwareInterface
+final class SapphireCloseParser implements InlineParserInterface, EnvironmentAwareInterface, ConfigurationAwareInterface
 {
     private EnvironmentInterface $environment;
+    private ConfigurationInterface $config;
+
+    public function setConfiguration(ConfigurationInterface $configuration): void
+    {
+        $this->config = $configuration;
+    }
 
     public function setEnvironment(EnvironmentInterface $environment): void
     {
@@ -47,8 +56,6 @@ final class SapphireCloseParser implements InlineParserInterface, EnvironmentAwa
     {
         $cursor = $inlineContext->getCursor();
         $container = $inlineContext->getContainer();
-        $state = $cursor->saveState();
-        echo $inlineContext->getFullMatch()."\n";
 
         $opener = $inlineContext->getDelimiterStack()->searchByCharacter('｜');
         if (null === $opener) {
@@ -60,10 +67,16 @@ final class SapphireCloseParser implements InlineParserInterface, EnvironmentAwa
             return false;
         }
 
-        // <rt>タグ登録
+        // <rt>タグ登録(必要ならば<rp>タグも)
         $cursor->advance();
         $ruby = $cursor->match('/.*?(?=》)/u') ?? '';
-        $container->appendChild(new RTNode($ruby));
+        if ($this->config->get('sapphire/use_rp_tag')) {
+            $container->appendChild(new RPNode('('));
+            $container->appendChild(new RTNode($ruby));
+            $container->appendChild(new RPNode(')'));
+        } else {
+            $container->appendChild(new RTNode($ruby));
+        }
 
         // <ruby>タグの閉め区切り文字「》」を挿入し、同時に内部の区切り文字の処理を清算する
         $cursor->advance();

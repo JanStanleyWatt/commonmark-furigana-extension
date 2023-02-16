@@ -13,14 +13,14 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
+ * limitations under the License.RPNode.
  */
 
 declare(strict_types=1);
 
 namespace JSW\Sapphire\Renderer;
 
-use JSW\Sapphire\Node\RTNode;
+use JSW\Sapphire\Node\RPNode;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
@@ -28,10 +28,10 @@ use League\CommonMark\Util\HtmlElement;
 use League\CommonMark\Util\Xml;
 use League\CommonMark\Xml\XmlNodeRendererInterface;
 
-final class RTNodeRenderer implements NodeRendererInterface, XmlNodeRendererInterface
+final class RPNodeRenderer implements NodeRendererInterface, XmlNodeRendererInterface
 {
     /**
-     * @param RTNode $node
+     * @param RPNode $node
      *
      * {@inheritDoc}
      *
@@ -39,16 +39,16 @@ final class RTNodeRenderer implements NodeRendererInterface, XmlNodeRendererInte
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
-        RTNode::assertInstanceOf($node);
+        RPNode::assertInstanceOf($node);
 
         $attrs = $node->data->get('attributes');
 
-        return new HtmlElement('rt', $attrs, Xml::escape($node->getLiteral()));
+        return new HtmlElement('rp', $attrs, Xml::escape($node->getLiteral()));
     }
 
     public function getXmlTagName(Node $node): string
     {
-        return 'rt';
+        return 'rp';
     }
 
     public function getXmlAttributes(Node $node): array
