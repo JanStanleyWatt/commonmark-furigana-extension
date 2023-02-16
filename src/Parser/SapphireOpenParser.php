@@ -50,6 +50,10 @@ final class SapphireOpenParser implements InlineParserInterface
         $cursor = $inlineContext->getCursor();
         $container = $inlineContext->getContainer();
 
+        // 区切り文字スタックに既に開き区切り文字「｜」がある場合は処理を飛ばす
+        if (null !== $inlineContext->getDelimiterStack()->searchByCharacter('｜')) {
+            return false;
+        }
 
         if ('｜' === $cursor->getCurrentCharacter()) {
             $inlineContext->getCursor()->advance();
