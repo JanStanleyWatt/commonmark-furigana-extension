@@ -22,10 +22,12 @@ namespace JSW\Sapphire;
 
 use JSW\Sapphire\Delimiter\SapphireDelimiterProcesser;
 use JSW\Sapphire\Event\SapphirePostParseDispatcher;
+use JSW\Sapphire\Node\RPNode;
 use JSW\Sapphire\Node\RTNode;
 use JSW\Sapphire\Node\RubyNode;
 use JSW\Sapphire\Parser\SapphireCloseParser;
 use JSW\Sapphire\Parser\SapphireOpenParser;
+use JSW\Sapphire\Renderer\RPNodeRenderer;
 use JSW\Sapphire\Renderer\RTNodeRenderer;
 use JSW\Sapphire\Renderer\RubyNodeRenderer;
 use JSW\Sapphire\Util\SapphireKugiri;
@@ -74,5 +76,9 @@ final class SapphireExtension implements ConfigurableExtensionInterface
         // レンダラ登録
         $environment->addRenderer(RTNode::class, new RTNodeRenderer())
                     ->addRenderer(RubyNode::class, new RubyNodeRenderer());
+
+        if ($config->get('sapphire/use_rp_tag')) {
+            $environment->addRenderer(RPNode::class, new RPNodeRenderer());
+        }
     }
 }
