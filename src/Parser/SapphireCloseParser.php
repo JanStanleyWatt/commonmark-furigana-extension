@@ -49,13 +49,14 @@ final class SapphireCloseParser implements InlineParserInterface, EnvironmentAwa
 
     public function getMatchDefinition(): InlineParserMatch
     {
-        return InlineParserMatch::regex('《.*?(?=》)');
+        return InlineParserMatch::string('《');
     }
 
     public function parse(InlineParserContext $inlineContext): bool
     {
         $cursor = $inlineContext->getCursor();
         $container = $inlineContext->getContainer();
+        $state = $cursor->saveState();
 
         $opener = $inlineContext->getDelimiterStack()->searchByCharacter('｜');
         if (null === $opener) {
@@ -69,7 +70,12 @@ final class SapphireCloseParser implements InlineParserInterface, EnvironmentAwa
 
         // <rt>タグ登録(必要ならば<rp>タグも)
         $cursor->advance();
-        $ruby = $cursor->match('/.*?(?=》)/u') ?? '';
+        $ruby = $cursor->match('/.*?(?=》)/u');
+        if (null === $ruby) {
+            $cursor->restoreState($state);
+
+            return false;
+        }
         if ($this->config->get('sapphire/use_rp_tag')) {
             $container->appendChild(new RPNode('('));
             $container->appendChild(new RTNode($ruby));
