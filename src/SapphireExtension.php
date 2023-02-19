@@ -22,6 +22,7 @@ namespace JSW\Sapphire;
 
 use JSW\Sapphire\Delimiter\SapphireDelimiterProcesser;
 use JSW\Sapphire\Event\SapphirePostParseDispatcher;
+use JSW\Sapphire\Event\SapphirePostRenderDispatcher;
 use JSW\Sapphire\Node\RPNode;
 use JSW\Sapphire\Node\RTNode;
 use JSW\Sapphire\Node\RubyNode;
@@ -33,6 +34,7 @@ use JSW\Sapphire\Renderer\RubyNodeRenderer;
 use JSW\Sapphire\Util\SapphireKugiri;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Event\DocumentParsedEvent;
+use League\CommonMark\Event\DocumentRenderedEvent;
 use League\CommonMark\Extension\ConfigurableExtensionInterface;
 use League\Config\ConfigurationBuilderInterface;
 use Nette\Schema\Expect;
@@ -72,6 +74,7 @@ final class SapphireExtension implements ConfigurableExtensionInterface
         if ($config->get('sapphire/use_sutegana')) {
             $environment->addEventListener($class, [$dispatch, 'useSutegana']);
         }
+        $environment->addEventListener(DocumentRenderedEvent::class, [new SapphirePostRenderDispatcher(), 'PostRender']);
 
         // レンダラ登録
         $environment->addRenderer(RTNode::class, new RTNodeRenderer())
