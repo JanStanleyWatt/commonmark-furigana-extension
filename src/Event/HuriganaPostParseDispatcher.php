@@ -18,15 +18,15 @@
 
 declare(strict_types=1);
 
-namespace JSW\Sapphire\Event;
+namespace JSW\Hurigana\Event;
 
-use JSW\Sapphire\Node\RPNode;
-use JSW\Sapphire\Node\RTNode;
+use JSW\Hurigana\Node\RPNode;
+use JSW\Hurigana\Node\RTNode;
 use League\CommonMark\Event\DocumentParsedEvent;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
 
-final class SapphirePostParseDispatcher implements ConfigurationAwareInterface
+final class HuriganaPostParseDispatcher implements ConfigurationAwareInterface
 {
     private ConfigurationInterface $config;
 

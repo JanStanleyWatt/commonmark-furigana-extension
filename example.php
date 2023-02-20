@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 require_once __DIR__.'/vendor/autoload.php';
 
-use JSW\Sapphire\SapphireExtension;
+use JSW\Hurigana\HuriganaExtension;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
@@ -38,7 +38,7 @@ $environment = new Environment($config);
 
 $environment
     ->addExtension(new CommonMarkCoreExtension())
-    ->addExtension(new SapphireExtension());
+    ->addExtension(new HuriganaExtension());
 
 $converter = new MarkdownConverter($environment);
 

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace JSW\Sapphire\Parser;
+namespace JSW\Hurigana\Parser;
 
 use League\CommonMark\Delimiter\Delimiter;
 use League\CommonMark\Node\Inline\Text;
@@ -26,7 +26,7 @@ use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
 
-final class SapphireOpenParser implements InlineParserInterface
+final class HuriganaOpenParser implements InlineParserInterface
 {
     private string $regex_pattern;
 

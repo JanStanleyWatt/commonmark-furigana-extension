@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "JSW\\Sapphire\\": "src/"
+            "JSW\\Hurigana\\": "src/"
         }
     },
     "autoload-dev": {

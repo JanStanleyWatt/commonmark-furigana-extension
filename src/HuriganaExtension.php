@@ -18,26 +18,26 @@
 
 declare(strict_types=1);
 
-namespace JSW\Sapphire;
+namespace JSW\Hurigana;
 
-use JSW\Sapphire\Delimiter\SapphireDelimiterProcesser;
-use JSW\Sapphire\Event\SapphirePostParseDispatcher;
-use JSW\Sapphire\Node\RPNode;
-use JSW\Sapphire\Node\RTNode;
-use JSW\Sapphire\Node\RubyNode;
-use JSW\Sapphire\Parser\SapphireCloseParser;
-use JSW\Sapphire\Parser\SapphireOpenParser;
-use JSW\Sapphire\Renderer\RPNodeRenderer;
-use JSW\Sapphire\Renderer\RTNodeRenderer;
-use JSW\Sapphire\Renderer\RubyNodeRenderer;
-use JSW\Sapphire\Util\SapphireKugiri;
+use JSW\Hurigana\Delimiter\HuriganaDelimiterProcesser;
+use JSW\Hurigana\Event\HuriganaPostParseDispatcher;
+use JSW\Hurigana\Node\RPNode;
+use JSW\Hurigana\Node\RTNode;
+use JSW\Hurigana\Node\RubyNode;
+use JSW\Hurigana\Parser\HuriganaCloseParser;
+use JSW\Hurigana\Parser\HuriganaOpenParser;
+use JSW\Hurigana\Renderer\RPNodeRenderer;
+use JSW\Hurigana\Renderer\RTNodeRenderer;
+use JSW\Hurigana\Renderer\RubyNodeRenderer;
+use JSW\Hurigana\Util\HuriganaKugiri;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Extension\ConfigurableExtensionInterface;
 use League\Config\ConfigurationBuilderInterface;
 use Nette\Schema\Expect;
 
-final class SapphireExtension implements ConfigurableExtensionInterface
+final class HuriganaExtension implements ConfigurableExtensionInterface
 {
     public function configureSchema(ConfigurationBuilderInterface $builder): void
     {
@@ -51,23 +51,23 @@ final class SapphireExtension implements ConfigurableExtensionInterface
 
     public function register(EnvironmentBuilderInterface $environment): void
     {
-        $patterns = new SapphireKugiri();
+        $patterns = new HuriganaKugiri();
         $priority = 100;
 
         // インラインパーサ登録
-        $environment->addInlineParser(new SapphireCloseParser(), $priority);
-        // JSW\Sapphire\Util\SapphireKugiriのパターンをパーサに注入する
+        $environment->addInlineParser(new HuriganaCloseParser(), $priority);
+        // JSW\Hurigana\Util\HuriganaKugiriのパターンをパーサに注入する
         foreach ($patterns->getKugiri() as $pattern) {
-            $environment->addInlineParser(new SapphireOpenParser($pattern), $priority);
+            $environment->addInlineParser(new HuriganaOpenParser($pattern), $priority);
             --$priority;
         }
 
         // 区切り文字プロセサ登録
-        $environment->addDelimiterProcessor(new SapphireDelimiterProcesser());
+        $environment->addDelimiterProcessor(new HuriganaDelimiterProcesser());
 
         // イベントディスパッチャ登録
         $class = DocumentParsedEvent::class;
-        $dispatch = new SapphirePostParseDispatcher();
+        $dispatch = new HuriganaPostParseDispatcher();
         $environment->addEventListener($class, [$dispatch, 'useSutegana'])
                     ->addEventListener($class, [$dispatch, 'useRPTag']);
 
