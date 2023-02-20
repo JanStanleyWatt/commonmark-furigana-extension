@@ -68,17 +68,12 @@ final class SapphireExtension implements ConfigurableExtensionInterface
         // イベントディスパッチャ登録
         $class = DocumentParsedEvent::class;
         $dispatch = new SapphirePostParseDispatcher();
-        $config = $environment->getConfiguration();
-        if ($config->get('sapphire/use_sutegana')) {
-            $environment->addEventListener($class, [$dispatch, 'useSutegana']);
-        }
+        $environment->addEventListener($class, [$dispatch, 'useSutegana'])
+                    ->addEventListener($class, [$dispatch, 'useRPTag']);
 
         // レンダラ登録
         $environment->addRenderer(RTNode::class, new RTNodeRenderer())
-                    ->addRenderer(RubyNode::class, new RubyNodeRenderer());
-
-        if ($config->get('sapphire/use_rp_tag')) {
-            $environment->addRenderer(RPNode::class, new RPNodeRenderer());
-        }
+                    ->addRenderer(RubyNode::class, new RubyNodeRenderer())
+                    ->addRenderer(RPNode::class, new RPNodeRenderer());
     }
 }
