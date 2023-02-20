@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 require_once __DIR__.'/vendor/autoload.php';
 
-use JSW\Sapphire\SapphireExtension;
+use JSW\Hurigana\HuriganaExtension;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
 
 $config = [
-    'sapphire' => [
+    'hurigana' => [
         // trueにすると、ルビ文字のうち特定の小文字が大文字になる(ゅ→ゆ、ぁ→あ...etc)
         'use_sutegana' => false,
         // trueにすると、<rp>タグがルビにつく(<rp>（</rp><rt>ルビ</rt><rp>）</rp>)
@@ -38,7 +38,7 @@ $environment = new Environment($config);
 
 $environment
     ->addExtension(new CommonMarkCoreExtension())
-    ->addExtension(new SapphireExtension());
+    ->addExtension(new HuriganaExtension());
 
 $converter = new MarkdownConverter($environment);
 

@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace JSW\Sapphire\Util;
+namespace JSW\Hurigana\Util;
 
-class SapphireKugiri
+class HuriganaKugiri
 {
     /**
      * 親文字の区切りパターンを収めた配列。

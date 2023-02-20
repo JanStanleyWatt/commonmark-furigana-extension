@@ -18,13 +18,23 @@
 
 declare(strict_types=1);
 
-namespace JSW\Sapphire\Event;
+namespace JSW\Hurigana\Event;
 
-use JSW\Sapphire\Node\RTNode;
+use JSW\Hurigana\Node\RPNode;
+use JSW\Hurigana\Node\RTNode;
 use League\CommonMark\Event\DocumentParsedEvent;
+use League\Config\ConfigurationAwareInterface;
+use League\Config\ConfigurationInterface;
 
-final class SapphirePostParseDispatcher
+final class HuriganaPostParseDispatcher implements ConfigurationAwareInterface
 {
+    private ConfigurationInterface $config;
+
+    public function setConfiguration(ConfigurationInterface $configuration): void
+    {
+        $this->config = $configuration;
+    }
+
     /**
      * 捨て仮名を大文字に置換する関数。
      * 引数にある置換フラグは実際にはプロパティで持たせる。
@@ -50,12 +60,25 @@ final class SapphirePostParseDispatcher
 
     public function useSutegana(DocumentParsedEvent $event)
     {
-        $document = $event->getDocument();
+        if ($this->config->get('hurigana/use_sutegana')) {
+            $document = $event->getDocument();
+            foreach ($document->iterator() as $node) {
+                if ($node instanceof RTNode) {
+                    $node->setLiteral($this->sutegana($node->getLiteral()));
+                }
+            }
+        }
+    }
 
-        foreach ($document as $node) {
-            if ($node instanceof RTNode) {
-                $tmp = $node->getLiteral();
-                $node->setLiteral($this->sutegana($tmp));
+    public function useRPTag(DocumentParsedEvent $event)
+    {
+        if ($this->config->get('hurigana/use_rp_tag')) {
+            $document = $event->getDocument();
+            foreach ($document->iterator() as $node) {
+                if ($node instanceof RTNode) {
+                    $node->insertBefore(new RPNode('('));
+                    $node->insertAfter(new RPNode(')'));
+                }
             }
         }
     }
