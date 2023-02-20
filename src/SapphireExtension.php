@@ -41,7 +41,7 @@ final class SapphireExtension implements ConfigurableExtensionInterface
 {
     public function configureSchema(ConfigurationBuilderInterface $builder): void
     {
-        $builder->addSchema('sapphire',
+        $builder->addSchema('hurigana',
             Expect::structure([
                 'use_sutegana' => Expect::bool()->default(false),
                 'use_rp_tag' => Expect::bool()->default(false),
@@ -68,17 +68,12 @@ final class SapphireExtension implements ConfigurableExtensionInterface
         // イベントディスパッチャ登録
         $class = DocumentParsedEvent::class;
         $dispatch = new SapphirePostParseDispatcher();
-        $config = $environment->getConfiguration();
-        if ($config->get('sapphire/use_sutegana')) {
-            $environment->addEventListener($class, [$dispatch, 'useSutegana']);
-        }
+        $environment->addEventListener($class, [$dispatch, 'useSutegana'])
+                    ->addEventListener($class, [$dispatch, 'useRPTag']);
 
         // レンダラ登録
         $environment->addRenderer(RTNode::class, new RTNodeRenderer())
-                    ->addRenderer(RubyNode::class, new RubyNodeRenderer());
-
-        if ($config->get('sapphire/use_rp_tag')) {
-            $environment->addRenderer(RPNode::class, new RPNodeRenderer());
-        }
+                    ->addRenderer(RubyNode::class, new RubyNodeRenderer())
+                    ->addRenderer(RPNode::class, new RPNodeRenderer());
     }
 }
