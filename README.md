@@ -1,4 +1,4 @@
-# CommonMark Sapphire Extension
+# CommonMark Hurigana Extension
 [Parsedownのルビ振り拡張機能](https://github.com/noisan/parsedown-rubytext)をリスペクトして作った、ルビ振り機能を追加するleague/commonmark用Extension
 
 ## 使い方

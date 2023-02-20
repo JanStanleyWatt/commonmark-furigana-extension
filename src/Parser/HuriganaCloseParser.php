@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace JSW\Sapphire\Parser;
+namespace JSW\Hurigana\Parser;
 
-use JSW\Sapphire\Node\RTNode;
+use JSW\Hurigana\Node\RTNode;
 use League\CommonMark\Delimiter\Delimiter;
 use League\CommonMark\Environment\EnvironmentAwareInterface;
 use League\CommonMark\Environment\EnvironmentInterface;
@@ -29,7 +29,7 @@ use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
 
-final class SapphireCloseParser implements InlineParserInterface, EnvironmentAwareInterface
+final class HuriganaCloseParser implements InlineParserInterface, EnvironmentAwareInterface
 {
     private EnvironmentInterface $environment;
 
