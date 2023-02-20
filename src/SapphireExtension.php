@@ -41,7 +41,7 @@ final class SapphireExtension implements ConfigurableExtensionInterface
 {
     public function configureSchema(ConfigurationBuilderInterface $builder): void
     {
-        $builder->addSchema('sapphire',
+        $builder->addSchema('hurigana',
             Expect::structure([
                 'use_sutegana' => Expect::bool()->default(false),
                 'use_rp_tag' => Expect::bool()->default(false),
