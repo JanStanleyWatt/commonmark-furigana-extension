@@ -18,13 +18,13 @@
 
 declare(strict_types=1);
 
-namespace JSW\Sapphire\Event;
+namespace JSW\Hurigana\Event;
 
 use League\CommonMark\Event\DocumentRenderedEvent;
 use League\CommonMark\Node\Block\Document;
 use League\CommonMark\Output\RenderedContent;
 
-final class SapphirePostRenderDispatcher
+final class HuriganaPostRenderDispatcher
 {
     private function makeTag(string $text, array $tagnames): string
     {
