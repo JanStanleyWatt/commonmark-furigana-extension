@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace JSW\Sapphire\Node;
+namespace JSW\Hurigana\Node;
 
 use League\CommonMark\Node\Inline\AbstractStringContainer;
 

@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-namespace JSW\Sapphire\Delimiter;
+namespace JSW\Hurigana\Delimiter;
 
-use JSW\Sapphire\Node\RubyNode;
+use JSW\Hurigana\Node\RubyNode;
 use League\CommonMark\Delimiter\DelimiterInterface;
 use League\CommonMark\Delimiter\Processor\DelimiterProcessorInterface;
 use League\CommonMark\Node\Inline\AbstractStringContainer;
 
-class SapphireDelimiterProcesser implements DelimiterProcessorInterface
+class HuriganaDelimiterProcesser implements DelimiterProcessorInterface
 {
     public function getOpeningCharacter(): string
     {

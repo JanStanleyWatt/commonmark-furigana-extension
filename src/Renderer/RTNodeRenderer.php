@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace JSW\Sapphire\Renderer;
+namespace JSW\Hurigana\Renderer;
 
-use JSW\Sapphire\Node\RTNode;
+use JSW\Hurigana\Node\RTNode;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
