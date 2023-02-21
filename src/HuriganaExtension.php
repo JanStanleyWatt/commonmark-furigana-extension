@@ -22,6 +22,7 @@ namespace JSW\Hurigana;
 
 use JSW\Hurigana\Delimiter\HuriganaDelimiterProcesser;
 use JSW\Hurigana\Event\HuriganaPostParseDispatcher;
+use JSW\Hurigana\Event\HuriganaPostRenderDispatcher;
 use JSW\Hurigana\Node\RPNode;
 use JSW\Hurigana\Node\RTNode;
 use JSW\Hurigana\Node\RubyNode;
@@ -33,6 +34,7 @@ use JSW\Hurigana\Renderer\RubyNodeRenderer;
 use JSW\Hurigana\Util\HuriganaKugiri;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Event\DocumentParsedEvent;
+use League\CommonMark\Event\DocumentRenderedEvent;
 use League\CommonMark\Extension\ConfigurableExtensionInterface;
 use League\Config\ConfigurationBuilderInterface;
 use Nette\Schema\Expect;
@@ -69,7 +71,9 @@ final class HuriganaExtension implements ConfigurableExtensionInterface
         $class = DocumentParsedEvent::class;
         $dispatch = new HuriganaPostParseDispatcher();
         $environment->addEventListener($class, [$dispatch, 'useSutegana'])
-                    ->addEventListener($class, [$dispatch, 'useRPTag']);
+                    ->addEventListener($class, [$dispatch, 'useRPTag'])
+                    ->addEventListener(DocumentRenderedEvent::class,
+                    [new HuriganaPostRenderDispatcher, 'PostRender']);
 
         // レンダラ登録
         $environment->addRenderer(RTNode::class, new RTNodeRenderer())

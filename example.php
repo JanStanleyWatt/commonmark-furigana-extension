@@ -42,7 +42,7 @@ $environment
 
 $converter = new MarkdownConverter($environment);
 
-$markdown = 'この拡張機能《エクステンション》は｜素晴らしい《イカしてる》ね';
+$markdown = 'この拡張機能《エクステンション》は｜**最高**《さい こう》に｜素晴らしい《イカしてる》ね';
 
 // <p>この<ruby>拡張機能<rt>エクステンション</rt></ruby>は<ruby>素晴らしい<rt>イカしてる</rt></ruby>ね</p>
 echo $converter->convert($markdown);
