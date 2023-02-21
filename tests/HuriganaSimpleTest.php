@@ -40,18 +40,19 @@ final class HuriganaSimpleTest extends TestCase
                 'use_rp_tag' => false,
             ],
     ];
+
     /**
      * @covers ::parse
      */
-    public function testEscape(): void
+    public function testEscapeOpenDelimiter(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
 
         $environment->addExtension(new CommonMarkCoreExtension())
                     ->addExtension(new HuriganaExtension());
-                    
+
         $converter = new MarkdownConverter($environment);
-                    
+
         $expect = '<p>｜この拡張<ruby>機能<rt>きのう</rt></ruby>は素晴らしい</p>'."\n";
         $actual = $converter->convert('\｜この拡張｜機能《きのう》は素晴らしい')->getContent();
 
