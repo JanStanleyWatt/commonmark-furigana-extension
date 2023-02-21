@@ -101,7 +101,7 @@ final class HuriganaPostRenderDispatcher implements ConfigurationAwareInterface
         $ruby = $ruby_match[0] ?? '';
         $ruby_count = count(explode(' ', $ruby));
         // 頭文字の数はタグを排除してから数える
-        $pure_parent = preg_replace('/<.*?>/u', '', $divides[0]);
+        $pure_parent = preg_replace('/<.*?>\(?/u', '', $divides[0]);
         $parent = $divides[0] ?? '';
         $parent_count = mb_strlen($pure_parent);
 
@@ -109,7 +109,11 @@ final class HuriganaPostRenderDispatcher implements ConfigurationAwareInterface
         if ($ruby_count === $parent_count) {
             $monoruby = '';
 
-            $rubies = preg_replace('/.+/u', '<rt>$0</rt>', explode(' ', $ruby));
+            $replace = $this->config->get('hurigana/use_rp_tag')
+                     ? '<rp>(</rp><rt>$0</rt><rp>)</rp>'
+                     : '<rt>$0</rt>';
+
+            $rubies = preg_replace('/.+/u', $replace, explode(' ', $ruby));
             $parents = $this->divideParentTag($parent);
 
             foreach ($rubies as $key => $ruby) {
