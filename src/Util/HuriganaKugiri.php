@@ -39,7 +39,7 @@ class HuriganaKugiri
          *   - t2hs.rbの実装では半角"|"での代用を許していない。
          *   - このExtensionでもそれに従っておく。
          */
-        'delimited' => '(?<!\\\)｜(.+?)',
+        'delimited' => '｜(.+?)',
         /* 漢字グループ:
          *   - 青空文庫では「仝々〆〇ヶ\x{303B}」も漢字として扱うと明記している(\x{303B}は二の字点)。
          *     @see http://www.aozora.gr.jp/KOSAKU/MANUAL_2.html#ruby
