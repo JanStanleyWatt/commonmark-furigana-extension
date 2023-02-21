@@ -52,7 +52,7 @@ final class HuriganaSimpleTest extends TestCase
                     
         $converter = new MarkdownConverter($environment);
                     
-        $expect = '<p>｜この拡張<ruby>機能<rt>きのう</rt>は素晴らしい<ruby></p>'."\n";
+        $expect = '<p>｜この拡張<ruby>機能<rt>きのう</rt></ruby>は素晴らしい</p>'."\n";
         $actual = $converter->convert('\｜この拡張｜機能《きのう》は素晴らしい')->getContent();
 
         $this->assertSame($expect, $actual);

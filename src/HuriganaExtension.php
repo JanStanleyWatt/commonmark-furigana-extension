@@ -27,6 +27,7 @@ use JSW\Hurigana\Node\RPNode;
 use JSW\Hurigana\Node\RTNode;
 use JSW\Hurigana\Node\RubyNode;
 use JSW\Hurigana\Parser\HuriganaCloseParser;
+use JSW\Hurigana\Parser\HuriganaEscapeParser;
 use JSW\Hurigana\Parser\HuriganaOpenParser;
 use JSW\Hurigana\Renderer\RPNodeRenderer;
 use JSW\Hurigana\Renderer\RTNodeRenderer;
@@ -57,7 +58,8 @@ final class HuriganaExtension implements ConfigurableExtensionInterface
         $priority = 100;
 
         // インラインパーサ登録
-        $environment->addInlineParser(new HuriganaCloseParser(), $priority);
+        $environment->addInlineParser(new HuriganaCloseParser(), $priority)
+                    ->addInlineParser(new HuriganaEscapeParser(), $priority + 10);
         // JSW\Hurigana\Util\HuriganaKugiriのパターンをパーサに注入する
         foreach ($patterns->getKugiri() as $pattern) {
             $environment->addInlineParser(new HuriganaOpenParser($pattern), $priority);
@@ -73,7 +75,7 @@ final class HuriganaExtension implements ConfigurableExtensionInterface
         $environment->addEventListener($class, [$dispatch, 'useSutegana'])
                     ->addEventListener($class, [$dispatch, 'useRPTag'])
                     ->addEventListener(DocumentRenderedEvent::class,
-                    [new HuriganaPostRenderDispatcher, 'PostRender']);
+                        [new HuriganaPostRenderDispatcher(), 'PostRender']);
 
         // レンダラ登録
         $environment->addRenderer(RTNode::class, new RTNodeRenderer())
