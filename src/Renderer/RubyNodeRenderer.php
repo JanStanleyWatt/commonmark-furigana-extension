@@ -60,8 +60,8 @@ final class RubyNodeRenderer implements NodeRendererInterface, XmlNodeRendererIn
     public function getXmlAttributes(Node $node): array
     {
         return [
-            'use_sutegana' => $this->config->get('sapphire/use_sutegana'),
-            'use_rp_tag' => $this->config->get('sapphire/use_rp_tag'),
+            'use_sutegana' => $this->config->get('hurigana/use_sutegana'),
+            'use_rp_tag' => $this->config->get('hurigana/use_rp_tag'),
         ];
     }
 }
