@@ -23,9 +23,18 @@ namespace JSW\Hurigana\Event;
 use League\CommonMark\Event\DocumentRenderedEvent;
 use League\CommonMark\Node\Block\Document;
 use League\CommonMark\Output\RenderedContent;
+use League\Config\ConfigurationAwareInterface;
+use League\Config\ConfigurationInterface;
 
-final class HuriganaPostRenderDispatcher
+final class HuriganaPostRenderDispatcher implements ConfigurationAwareInterface
 {
+    private ConfigurationInterface $config;
+
+    public function setConfiguration(ConfigurationInterface $configuration): void
+    {
+        $this->config = $configuration;
+    }
+
     private function makeTag(string $text, array $tagnames): string
     {
         if (empty($tagnames)) {
