@@ -20,13 +20,55 @@ declare(strict_types=1);
 
 namespace JSW\Hurigana\Delimiter;
 
-use JSW\Hurigana\Node\RubyNode;
+use JSW\Hurigana\Node\Ruby;
+use JSW\Hurigana\Node\RubyParentheses;
+use JSW\Hurigana\Node\RubyText;
 use League\CommonMark\Delimiter\DelimiterInterface;
 use League\CommonMark\Delimiter\Processor\DelimiterProcessorInterface;
 use League\CommonMark\Node\Inline\AbstractStringContainer;
+use League\Config\ConfigurationAwareInterface;
+use League\Config\ConfigurationInterface;
 
-class HuriganaDelimiterProcesser implements DelimiterProcessorInterface
+/**
+ * TODO: #17 モノルビ機能を実装できないか試してみる.
+ */
+class HuriganaDelimiterProcesser implements DelimiterProcessorInterface, ConfigurationAwareInterface
 {
+    private ConfigurationInterface $config;
+
+    public function setConfiguration(ConfigurationInterface $configuration): void
+    {
+        $this->config = $configuration;
+    }
+
+    private function useRPTag(Ruby $ruby_node)
+    {
+        foreach ($ruby_node->iterator() as $node) {
+            if ($node instanceof RubyText) {
+                $node->insertBefore(new RubyParentheses('('));
+                $node->insertAfter(new RubyParentheses(')'));
+            }
+        }
+    }
+
+    public function process(AbstractStringContainer $opener, AbstractStringContainer $closer, int $delimiterUse): void
+    {
+        $node = new Ruby();
+
+        $next = $opener->next();
+        while (null !== $next && $next !== $closer) {
+            $tmp = $next->next();
+            $node->appendChild($next);
+            $next = $tmp;
+        }
+
+        if ($this->config->get('hurigana/use_rp_tag')) {
+            $this->useRPTag($node);
+        }
+
+        $opener->insertAfter($node);
+    }
+    
     public function getOpeningCharacter(): string
     {
         return '｜';
@@ -34,7 +76,7 @@ class HuriganaDelimiterProcesser implements DelimiterProcessorInterface
 
     public function getClosingCharacter(): string
     {
-        return '》';
+        return '｜';
     }
 
     public function getMinLength(): int
@@ -45,19 +87,5 @@ class HuriganaDelimiterProcesser implements DelimiterProcessorInterface
     public function getDelimiterUse(DelimiterInterface $opener, DelimiterInterface $closer): int
     {
         return 1;
-    }
-
-    public function process(AbstractStringContainer $opener, AbstractStringContainer $closer, int $delimiterUse): void
-    {
-        $node = new RubyNode();
-
-        $next = $opener->next();
-        while (null !== $next && $next !== $closer) {
-            $tmp = $next->next();
-            $node->appendChild($next);
-            $next = $tmp;
-        }
-
-        $opener->insertAfter($node);
     }
 }

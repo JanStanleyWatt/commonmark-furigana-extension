@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace JSW\Hurigana\Renderer;
 
-use JSW\Hurigana\Node\RubyNode;
+use JSW\Hurigana\Node\Ruby;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
@@ -29,7 +29,7 @@ use League\CommonMark\Xml\XmlNodeRendererInterface;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
 
-final class RubyNodeRenderer implements NodeRendererInterface, XmlNodeRendererInterface, ConfigurationAwareInterface
+final class RubyRenderer implements NodeRendererInterface, XmlNodeRendererInterface, ConfigurationAwareInterface
 {
     private ConfigurationInterface $config;
 
@@ -39,13 +39,13 @@ final class RubyNodeRenderer implements NodeRendererInterface, XmlNodeRendererIn
     }
 
     /**
-     * @param RubyNode $node
+     * @param Ruby $node
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
-        RubyNode::assertInstanceOf($node);
+        Ruby::assertInstanceOf($node);
 
         $attrs = $node->data->get('attributes');
 

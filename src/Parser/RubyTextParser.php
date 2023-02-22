@@ -21,25 +21,16 @@ declare(strict_types=1);
 namespace JSW\Hurigana\Parser;
 
 use League\CommonMark\Delimiter\Delimiter;
-use League\CommonMark\Environment\EnvironmentAwareInterface;
-use League\CommonMark\Environment\EnvironmentInterface;
 use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
 
-final class HuriganaCloseParser implements InlineParserInterface, EnvironmentAwareInterface
+final class RubyTextParser implements InlineParserInterface
 {
-    private EnvironmentInterface $environment;
-
-    public function setEnvironment(EnvironmentInterface $environment): void
-    {
-        $this->environment = $environment;
-    }
-
     public function getMatchDefinition(): InlineParserMatch
     {
-        return InlineParserMatch::string('》');
+        return InlineParserMatch::string('《');
     }
 
     public function parse(InlineParserContext $inlineContext): bool
@@ -47,6 +38,7 @@ final class HuriganaCloseParser implements InlineParserInterface, EnvironmentAwa
         $cursor = $inlineContext->getCursor();
         $container = $inlineContext->getContainer();
 
+        // 区切り文字スタックに開き区切り文字「｜」が無い、または機能してない場合は処理を飛ばす
         $opener = $inlineContext->getDelimiterStack()->searchByCharacter('｜');
         if (null === $opener) {
             return false;
@@ -57,24 +49,12 @@ final class HuriganaCloseParser implements InlineParserInterface, EnvironmentAwa
             return false;
         }
 
-        // <rt>タグを閉める
         $cursor->advance();
-        $node_rt = new Text('》', ['delim' => true]);
-        $container->appendChild($node_rt);
-        $delimiter_rt = new Delimiter('》', 1, $node_rt, false, true);
-        $inlineContext->getDelimiterStack()->push($delimiter_rt);
+        $node = new Text('《', ['delim' => true]);
+        $container->appendChild($node);
 
-        // <ruby>タグの閉め区切り文字「｜」を挿入し、同時に内部の区切り文字の処理を清算する
-        $node_ruby = new Text('｜', ['delim' => true]);
-        $container->appendChild($node_ruby);
-        $delimiter_ruby = new Delimiter('｜', 1, $node_ruby, true, true);
-        $inlineContext->getDelimiterStack()->push($delimiter_ruby);
-
-        $stack = $inlineContext->getDelimiterStack();
-        $bottom = $opener->getPrevious();
-
-        $stack->processDelimiters($bottom, $this->environment->getDelimiterProcessors());
-        $stack->removeAll($bottom);
+        $delimiter = new Delimiter('《', 1, $node, true, false);
+        $inlineContext->getDelimiterStack()->push($delimiter);
 
         return true;
     }

@@ -20,26 +20,11 @@ declare(strict_types=1);
 
 namespace JSW\Hurigana\Node;
 
-use League\CommonMark\Node\Inline\AbstractInline;
-use League\CommonMark\Node\Inline\DelimitedInterface;
+use League\CommonMark\Node\Inline\AbstractStringContainer;
 
 /**
- * <ruby>を担当するノード。
+ * <rp>を担当するノード。
  */
-class RubyNode extends AbstractInline implements DelimitedInterface
+final class RubyParentheses extends AbstractStringContainer
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function getOpeningDelimiter(): string
-    {
-        return '｜';
-    }
-
-    public function getClosingDelimiter(): string
-    {
-        return '》';
-    }
 }
