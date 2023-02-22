@@ -87,14 +87,6 @@ final class RubyTextDelimiterProcesser implements DelimiterProcessorInterface, C
         }
     }
 
-    /**
-     * @return int:\<rt\>から\<\/rt\>までのルビ文字の文字数。
-     */
-    public function rubyTextLength(): int
-    {
-        return $this->char_length;
-    }
-
     public function process(AbstractStringContainer $opener, AbstractStringContainer $closer, int $delimiterUse): void
     {
         $node = new RubyText();
