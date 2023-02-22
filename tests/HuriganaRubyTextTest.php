@@ -59,6 +59,7 @@ final class HuriganaRubyTextTest extends TestCase
 
     /**
      * @covers \JSW\Hurigana\Parser\RubyTextParser::getMatchDefinition
+     * @covers \JSW\Hurigana\Parser\RubyTextParser::parse
      */
     public function testSimpleRubyText(): void
     {
