@@ -18,17 +18,20 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Event;
+namespace JSW\Hurigana\Delimiter;
 
-use JSW\Hurigana\Node\RPNode;
-use JSW\Hurigana\Node\RTNode;
-use League\CommonMark\Event\DocumentParsedEvent;
+use JSW\Hurigana\Node\RubyText;
+use League\CommonMark\Delimiter\DelimiterInterface;
+use League\CommonMark\Delimiter\Processor\DelimiterProcessorInterface;
+use League\CommonMark\Node\Inline\AbstractStringContainer;
+use League\CommonMark\Node\Node;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
 
-final class HuriganaPostParseDispatcher implements ConfigurationAwareInterface
+final class RubyTextDelimiterProcesser implements DelimiterProcessorInterface, ConfigurationAwareInterface
 {
     private ConfigurationInterface $config;
+    private int $char_length = 0;
 
     public function setConfiguration(ConfigurationInterface $configuration): void
     {
@@ -58,28 +61,66 @@ final class HuriganaPostParseDispatcher implements ConfigurationAwareInterface
         return str_replace($ruby_text_Sutegana['from'], $ruby_text_Sutegana['to'], $ruby);
     }
 
-    public function useSutegana(DocumentParsedEvent $event)
+    /**
+     * @TODO: #16 深度制限を実装すべきか検討する
+     */
+    private function digRubyText(Node $ruby_node)
     {
-        if ($this->config->get('hurigana/use_sutegana')) {
-            $document = $event->getDocument();
-            foreach ($document->iterator() as $node) {
-                if ($node instanceof RTNode) {
-                    $node->setLiteral($this->sutegana($node->getLiteral()));
+        $ruby_node->data->set('is_digged', true);
+
+        // 深さ優先検索でルビ文字を見つける
+        foreach ($ruby_node->iterator() as $node) {
+            if ($node->data->get('is_digged', false)) {
+                continue;
+            }
+            if ($node->hasChildren()) {
+                $this->digRubyText($node);
+            } elseif ($node instanceof AbstractStringContainer) {
+                $node->data->set('is_digged', true);
+                $tmp = $node->getLiteral();
+                $this->char_length += mb_strlen($tmp);
+
+                if ($this->config->get('hurigana/use_sutegana')) {
+                    $node->setLiteral($this->sutegana($tmp));
                 }
             }
         }
     }
 
-    public function useRPTag(DocumentParsedEvent $event)
+    public function process(AbstractStringContainer $opener, AbstractStringContainer $closer, int $delimiterUse): void
     {
-        if ($this->config->get('hurigana/use_rp_tag')) {
-            $document = $event->getDocument();
-            foreach ($document->iterator() as $node) {
-                if ($node instanceof RTNode) {
-                    $node->insertBefore(new RPNode('('));
-                    $node->insertAfter(new RPNode(')'));
-                }
-            }
+        $node = new RubyText();
+        $this->char_length = 0;
+
+        $next = $opener->next();
+        while (null !== $next && $next !== $closer) {
+            $tmp = $next->next();
+            $node->appendChild($next);
+            $next = $tmp;
         }
+
+        $this->digRubyText($node);
+        $node->data->set('text_length', $this->char_length);
+        $opener->insertAfter($node);
+    }
+
+    public function getOpeningCharacter(): string
+    {
+        return '《';
+    }
+
+    public function getClosingCharacter(): string
+    {
+        return '》';
+    }
+
+    public function getMinLength(): int
+    {
+        return 1;
+    }
+
+    public function getDelimiterUse(DelimiterInterface $opener, DelimiterInterface $closer): int
+    {
+        return 1;
     }
 }

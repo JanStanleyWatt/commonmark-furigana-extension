@@ -21,19 +21,19 @@ declare(strict_types=1);
 namespace JSW\Hurigana;
 
 use JSW\Hurigana\Delimiter\HuriganaDelimiterProcesser;
-use JSW\Hurigana\Event\HuriganaPostParseDispatcher;
+use JSW\Hurigana\Delimiter\RubyTextDelimiterProcesser;
 use JSW\Hurigana\Event\HuriganaPostRenderDispatcher;
-use JSW\Hurigana\Node\RPNode;
-use JSW\Hurigana\Node\RTNode;
-use JSW\Hurigana\Node\RubyNode;
+use JSW\Hurigana\Node\RubyParentheses;
+use JSW\Hurigana\Node\RubyText;
+use JSW\Hurigana\Node\Ruby;
 use JSW\Hurigana\Parser\HuriganaCloseParser;
 use JSW\Hurigana\Parser\HuriganaOpenParser;
-use JSW\Hurigana\Renderer\RPNodeRenderer;
-use JSW\Hurigana\Renderer\RTNodeRenderer;
-use JSW\Hurigana\Renderer\RubyNodeRenderer;
+use JSW\Hurigana\Parser\RubyTextParser;
+use JSW\Hurigana\Renderer\RubyParenthesesRenderer;
+use JSW\Hurigana\Renderer\RubyTextRenderer;
+use JSW\Hurigana\Renderer\RubyRenderer;
 use JSW\Hurigana\Util\HuriganaKugiri;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
-use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Event\DocumentRenderedEvent;
 use League\CommonMark\Extension\ConfigurableExtensionInterface;
 use League\Config\ConfigurationBuilderInterface;
@@ -57,7 +57,8 @@ final class HuriganaExtension implements ConfigurableExtensionInterface
         $priority = 100;
 
         // インラインパーサ登録
-        $environment->addInlineParser(new HuriganaCloseParser(), $priority);
+        $environment->addInlineParser(new HuriganaCloseParser(), $priority)
+                    ->addInlineParser(new RubyTextParser(), $priority);
         // JSW\Hurigana\Util\HuriganaKugiriのパターンをパーサに注入する
         foreach ($patterns->getKugiri() as $pattern) {
             $environment->addInlineParser(new HuriganaOpenParser($pattern), $priority);
@@ -65,19 +66,12 @@ final class HuriganaExtension implements ConfigurableExtensionInterface
         }
 
         // 区切り文字プロセサ登録
-        $environment->addDelimiterProcessor(new HuriganaDelimiterProcesser());
-
-        // イベントディスパッチャ登録
-        $class = DocumentParsedEvent::class;
-        $dispatch = new HuriganaPostParseDispatcher();
-        $environment->addEventListener($class, [$dispatch, 'useSutegana'])
-                    ->addEventListener($class, [$dispatch, 'useRPTag'])
-                    ->addEventListener(DocumentRenderedEvent::class,
-                    [new HuriganaPostRenderDispatcher, 'PostRender']);
+        $environment->addDelimiterProcessor(new HuriganaDelimiterProcesser())
+                    ->addDelimiterProcessor(new RubyTextDelimiterProcesser());
 
         // レンダラ登録
-        $environment->addRenderer(RTNode::class, new RTNodeRenderer())
-                    ->addRenderer(RubyNode::class, new RubyNodeRenderer())
-                    ->addRenderer(RPNode::class, new RPNodeRenderer());
+        $environment->addRenderer(RubyText::class, new RubyTextRenderer())
+                    ->addRenderer(Ruby::class, new RubyRenderer())
+                    ->addRenderer(RubyParentheses::class, new RubyParenthesesRenderer());
     }
 }
