@@ -144,10 +144,10 @@ final class HuriganaRubyTextTest extends TestCase
 
         $expect_1 = $this->makeExpect('この<ruby>拡張機能<rt>かくちようきのう</rt></ruby>は素晴らしい');
         $actual_1 = $converter->convert('この拡張機能《かくちょうきのう》は素晴らしい')->getContent();
-        $this->assertSame($expect_1, $actual_1,'Failed hiragana');
-        
+        $this->assertSame($expect_1, $actual_1, 'Failed hiragana');
+
         $expect_2 = $this->makeExpect('この<ruby>拡張機能<rt>エクステンシヨン</rt></ruby>は素晴らしい');
         $actual_2 = $converter->convert('この拡張機能《エクステンション》は素晴らしい')->getContent();
-        $this->assertSame($expect_2, $actual_2,'Failed katakana');
+        $this->assertSame($expect_2, $actual_2, 'Failed katakana');
     }
 }

@@ -100,7 +100,7 @@ final class RubyTextDelimiterProcesser implements DelimiterProcessorInterface, C
         }
 
         $this->digRubyText($node);
-        $node->data->set('text_length',$this->char_length);
+        $node->data->set('text_length', $this->char_length);
         $opener->insertAfter($node);
     }
 
