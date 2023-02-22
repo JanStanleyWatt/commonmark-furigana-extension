@@ -47,13 +47,13 @@ final class HuriganaOpenParser implements InlineParserInterface
 
     public function parse(InlineParserContext $inlineContext): bool
     {
-        $cursor = $inlineContext->getCursor();
-        $container = $inlineContext->getContainer();
-
         // 区切り文字スタックに既に開き区切り文字「｜」がある場合は処理を飛ばす
         if (null !== $inlineContext->getDelimiterStack()->searchByCharacter('｜')) {
             return false;
         }
+
+        $cursor = $inlineContext->getCursor();
+        $container = $inlineContext->getContainer();
 
         if ('｜' === $cursor->getCurrentCharacter()) {
             $inlineContext->getCursor()->advance();
@@ -62,7 +62,7 @@ final class HuriganaOpenParser implements InlineParserInterface
         $node = new Text('｜', ['delim' => true]);
         $container->appendChild($node);
 
-        $delimiter = new Delimiter('｜', 1, $node, true, false);
+        $delimiter = new Delimiter('｜', 1, $node, true, true);
         $inlineContext->getDelimiterStack()->push($delimiter);
 
         return true;

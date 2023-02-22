@@ -20,11 +20,14 @@ declare(strict_types=1);
 
 namespace JSW\Hurigana\Delimiter;
 
-use JSW\Hurigana\Node\RubyNode;
+use JSW\Hurigana\Node\Ruby;
 use League\CommonMark\Delimiter\DelimiterInterface;
 use League\CommonMark\Delimiter\Processor\DelimiterProcessorInterface;
 use League\CommonMark\Node\Inline\AbstractStringContainer;
 
+/**
+ * TODO: #17 モノルビ機能を実装できないか試してみる
+ */
 class HuriganaDelimiterProcesser implements DelimiterProcessorInterface
 {
     public function getOpeningCharacter(): string
@@ -34,7 +37,7 @@ class HuriganaDelimiterProcesser implements DelimiterProcessorInterface
 
     public function getClosingCharacter(): string
     {
-        return '》';
+        return '｜';
     }
 
     public function getMinLength(): int
@@ -49,7 +52,7 @@ class HuriganaDelimiterProcesser implements DelimiterProcessorInterface
 
     public function process(AbstractStringContainer $opener, AbstractStringContainer $closer, int $delimiterUse): void
     {
-        $node = new RubyNode();
+        $node = new Ruby();
 
         $next = $opener->next();
         while (null !== $next && $next !== $closer) {

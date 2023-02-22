@@ -39,6 +39,6 @@
         "jsw/commonmark-danraku-extension": "League/commonmark extension for japanese danraku style."
     },
     "scripts": {
-        "test": "./vendor/bin/phpunit test"
+        "test": "./vendor/bin/phpunit tests"
     }
 }
