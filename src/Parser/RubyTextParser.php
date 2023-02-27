@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Parser;
+namespace JSW\Furigana\Parser;
 
 use League\CommonMark\Delimiter\Delimiter;
 use League\CommonMark\Node\Inline\Text;

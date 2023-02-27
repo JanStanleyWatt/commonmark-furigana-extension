@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Event;
+namespace JSW\Furigana\Event;
 
 use League\CommonMark\Event\DocumentRenderedEvent;
 use League\CommonMark\Node\Block\Document;
@@ -26,7 +26,7 @@ use League\CommonMark\Output\RenderedContent;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
 
-final class HuriganaPostRenderDispatcher implements ConfigurationAwareInterface
+final class FuriganaPostRenderDispatcher implements ConfigurationAwareInterface
 {
     private ConfigurationInterface $config;
 
@@ -109,7 +109,7 @@ final class HuriganaPostRenderDispatcher implements ConfigurationAwareInterface
         if ($ruby_count === $parent_count) {
             $monoruby = '';
 
-            $replace = $this->config->get('hurigana/use_rp_tag')
+            $replace = $this->config->get('furigana/use_rp_tag')
                      ? '<rp>(</rp><rt>$0</rt><rp>)</rp>'
                      : '<rt>$0</rt>';
 

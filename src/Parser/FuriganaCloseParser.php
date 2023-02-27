@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Parser;
+namespace JSW\Furigana\Parser;
 
 use League\CommonMark\Delimiter\Delimiter;
 use League\CommonMark\Environment\EnvironmentAwareInterface;
@@ -28,7 +28,7 @@ use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
 
-final class HuriganaCloseParser implements InlineParserInterface, EnvironmentAwareInterface
+final class FuriganaCloseParser implements InlineParserInterface, EnvironmentAwareInterface
 {
     private EnvironmentInterface $environment;
 

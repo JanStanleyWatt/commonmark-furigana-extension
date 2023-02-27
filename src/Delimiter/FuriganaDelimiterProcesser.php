@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Delimiter;
+namespace JSW\Furigana\Delimiter;
 
-use JSW\Hurigana\Node\Ruby;
-use JSW\Hurigana\Node\RubyParentheses;
-use JSW\Hurigana\Node\RubyText;
+use JSW\Furigana\Node\Ruby;
+use JSW\Furigana\Node\RubyParentheses;
+use JSW\Furigana\Node\RubyText;
 use League\CommonMark\Delimiter\DelimiterInterface;
 use League\CommonMark\Delimiter\Processor\DelimiterProcessorInterface;
 use League\CommonMark\Node\Inline\AbstractStringContainer;
@@ -32,7 +32,7 @@ use League\Config\ConfigurationInterface;
 /**
  * TODO: #17 モノルビ機能を実装できないか試してみる.
  */
-class HuriganaDelimiterProcesser implements DelimiterProcessorInterface, ConfigurationAwareInterface
+class FuriganaDelimiterProcesser implements DelimiterProcessorInterface, ConfigurationAwareInterface
 {
     private ConfigurationInterface $config;
 
@@ -62,13 +62,13 @@ class HuriganaDelimiterProcesser implements DelimiterProcessorInterface, Configu
             $next = $tmp;
         }
 
-        if ($this->config->get('hurigana/use_rp_tag')) {
+        if ($this->config->get('furigana/use_rp_tag')) {
             $this->useRPTag($node);
         }
 
         $opener->insertAfter($node);
     }
-    
+
     public function getOpeningCharacter(): string
     {
         return '｜';
