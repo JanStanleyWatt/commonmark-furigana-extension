@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Node;
+namespace JSW\Furigana\Node;
 
 use League\CommonMark\Node\Inline\AbstractStringContainer;
 

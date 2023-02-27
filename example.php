@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 require_once __DIR__.'/vendor/autoload.php';
 
-use JSW\Hurigana\HuriganaExtension;
+use JSW\Furigana\FuriganaExtension;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
 
 $config = [
-    'hurigana' => [
+    'furigana' => [
         // trueにすると、ルビ文字のうち特定の小文字が大文字になる(ゅ→ゆ、ぁ→あ...etc)
         'use_sutegana' => false,
         // trueにすると、<rp>タグがルビにつく(<rp>（</rp><rt>ルビ</rt><rp>）</rp>)
@@ -38,7 +38,7 @@ $environment = new Environment($config);
 
 $environment
     ->addExtension(new CommonMarkCoreExtension())
-    ->addExtension(new HuriganaExtension());
+    ->addExtension(new FuriganaExtension());
 
 $converter = new MarkdownConverter($environment);
 

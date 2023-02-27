@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Delimiter;
+namespace JSW\Furigana\Delimiter;
 
-use JSW\Hurigana\Node\RubyText;
+use JSW\Furigana\Node\RubyText;
 use League\CommonMark\Delimiter\DelimiterInterface;
 use League\CommonMark\Delimiter\Processor\DelimiterProcessorInterface;
 use League\CommonMark\Node\Inline\AbstractStringContainer;
@@ -80,7 +80,7 @@ final class RubyTextDelimiterProcesser implements DelimiterProcessorInterface, C
                 $tmp = $node->getLiteral();
                 $this->char_length += mb_strlen($tmp);
 
-                if ($this->config->get('hurigana/use_sutegana')) {
+                if ($this->config->get('furigana/use_sutegana')) {
                     $node->setLiteral($this->sutegana($tmp));
                 }
             }

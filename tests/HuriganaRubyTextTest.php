@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace JSW\Tests;
 
-use JSW\Hurigana\HuriganaExtension;
-use JSW\Hurigana\Node\RubyText;
+use JSW\Furigana\FuriganaExtension;
+use JSW\Furigana\Node\RubyText;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
@@ -29,14 +29,14 @@ use League\CommonMark\Node\Block\Document;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass \JSW\Hurigana\Delimiter\RubyTextDelimiterProcesser
+ * @coversDefaultClass \JSW\Furigana\Delimiter\RubyTextDelimiterProcesser
  *
  * @group rubytext
  */
-final class HuriganaRubyTextTest extends TestCase
+final class FuriganaRubyTextTest extends TestCase
 {
     private const DEFAULT_RULE = [
-        'hurigana' => [
+        'furigana' => [
             'use_sutegana' => false,
             'use_rp_tag' => false,
         ],
@@ -58,15 +58,15 @@ final class HuriganaRubyTextTest extends TestCase
     }
 
     /**
-     * @covers \JSW\Hurigana\Parser\RubyTextParser::getMatchDefinition
-     * @covers \JSW\Hurigana\Parser\RubyTextParser::parse
+     * @covers \JSW\Furigana\Parser\RubyTextParser::getMatchDefinition
+     * @covers \JSW\Furigana\Parser\RubyTextParser::parse
      */
     public function testSimpleRubyText(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
 
         $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new HuriganaExtension());
+                    ->addExtension(new FuriganaExtension());
 
         $converter = new MarkdownConverter($environment);
 
@@ -84,7 +84,7 @@ final class HuriganaRubyTextTest extends TestCase
         $environment = new Environment($this::DEFAULT_RULE);
 
         $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new HuriganaExtension());
+                    ->addExtension(new FuriganaExtension());
 
         $converter = new MarkdownConverter($environment);
 
@@ -102,7 +102,7 @@ final class HuriganaRubyTextTest extends TestCase
         $environment = new Environment($this::DEFAULT_RULE);
 
         $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new HuriganaExtension());
+                    ->addExtension(new FuriganaExtension());
 
         $converter = new MarkdownConverter($environment);
 
@@ -132,13 +132,13 @@ final class HuriganaRubyTextTest extends TestCase
     public function testSutegana(): void
     {
         $environment = new Environment([
-            'hurigana' => [
+            'furigana' => [
                 'use_sutegana' => true,
             ],
         ]);
 
         $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new HuriganaExtension());
+                    ->addExtension(new FuriganaExtension());
 
         $converter = new MarkdownConverter($environment);
 

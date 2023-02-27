@@ -1,8 +1,8 @@
-# CommonMark Hurigana Extension
+# CommonMark Furigana Extension
 [Parsedownのルビ振り拡張機能](https://github.com/noisan/parsedown-rubytext)をリスペクトして作った、ルビ振り機能を追加するleague/commonmark用Extension
 
 ## 使い方
-既に[PHP](https://www.php.net/)並びに[composer](https://getcomposer.org/)を使用できる環境にあることを前提とします。
+すでに[PHP](https://www.php.net/)と[composer](https://getcomposer.org/)を使用できる環境にあることを前提とします。
 
 ### インストール
 1. このリポジトリをクローンする
@@ -48,7 +48,7 @@ $config = [
 ### VS Code用スニペット
 スニペット設定としてmarkdown.jsonを、スニペット用キーバインドとしてkeybindings.jsonを添付しました。機能は以下の通りです。
 - Markdownファイルの編集中にスニペット「aozora_ruby」を実行すると、カーソルを挟むようにルビ記号（《》）が挿入される
-  - ルビ文字を入力後にtabキーを押下することで、ルビ記号の直後にカー駿河移動するようになる
+  - ルビ文字を入力後にtabキーを押下することで、ルビ記号の直後にカーソルが移動するようになる
 - 文字を選択している状態でスニペット「aozora_ruby_separate」を実行すると、選択した文字を親文字と認識し、親文字の直前に区切り文字（｜）を、直後にルビ記号（《》）が挿入される
   - カーソルの振る舞いは「aozora_ruby」に準ずる
 - keybindings.jsonの設定を有効にすると、Ctrl+rでスニペット「aozora_ruby」を実行するようになる

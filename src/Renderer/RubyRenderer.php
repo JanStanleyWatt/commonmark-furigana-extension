@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Renderer;
+namespace JSW\Furigana\Renderer;
 
-use JSW\Hurigana\Node\Ruby;
+use JSW\Furigana\Node\Ruby;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
@@ -60,8 +60,8 @@ final class RubyRenderer implements NodeRendererInterface, XmlNodeRendererInterf
     public function getXmlAttributes(Node $node): array
     {
         return [
-            'use_sutegana' => $this->config->get('hurigana/use_sutegana'),
-            'use_rp_tag' => $this->config->get('hurigana/use_rp_tag'),
+            'use_sutegana' => $this->config->get('furigana/use_sutegana'),
+            'use_rp_tag' => $this->config->get('furigana/use_rp_tag'),
         ];
     }
 }
