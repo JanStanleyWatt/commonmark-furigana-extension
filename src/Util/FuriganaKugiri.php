@@ -27,6 +27,10 @@ class FuriganaKugiri
      * 区切りパターンはnoisan氏の以下のコードの内、619行目から695行目までを借用し、
      * この拡張機能用にパターンを少し変更しました。
      *
+     * 変更部分(2023/3/2現在)
+     * - デリミタを削除し、パーサ本体等で指定する形に変更
+     * - PHPのバージョンアップに伴い、ひらがな部分のUnicode名を明示的に本来のScriptのみを指定する形に変更
+     *
      * Copyright (c) 2015 Akihiro Yamanoi
      * Released under the MIT license
      * https://raw.githubusercontent.com/noisan/parsedown-rubytext/master/LICENSE
@@ -110,7 +114,7 @@ class FuriganaKugiri
          *     "｜" で区切ることになる状況が多いのではないだろうか。これを踏まえて
          *     パターンの優先順位は最後にしておく。
          */
-        'hiragana' => '((?:\p{Hiragana}+[゛゜]*)+)',
+        'hiragana' => '((?:\p{sc=Hiragana}+[゛゜]*)+)',
     ];
 
     public function getKugiri(): array
