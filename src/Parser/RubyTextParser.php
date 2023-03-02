@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace JSW\Furigana\Parser;
 
 use JSW\Furigana\Node\RubyText;
+use League\CommonMark\Delimiter\Delimiter;
+use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
@@ -50,6 +52,10 @@ final class RubyTextParser implements InlineParserInterface
 
         $cursor->advance();
         $container->appendChild(new RubyText());
+
+        // <rt>があるかどうかをFuriganaDelimiterProcesserに判定させる為だけのdelimiterをDelimiterStackに追加
+        $delimiter = new Delimiter('《', 1, new Text('《', ['delim' => true]), true, false);
+        $inlineContext->getDelimiterStack()->push($delimiter);
 
         return true;
     }
