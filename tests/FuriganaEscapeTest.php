@@ -27,7 +27,7 @@ use League\CommonMark\MarkdownConverter;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass \JSW\Hurigana\Parser\HuriganaEscapeParser
+ * @coversDefaultClass \JSW\Hurigana\Parser\FuriganaEscapeParser
  *
  * @group unit
  * @group jisage
@@ -41,6 +41,11 @@ final class FuriganaEscapeTest extends TestCase
             ],
     ];
 
+    private function makeExpect(string $expect)
+    {
+        return '<p>'.$expect.'</p>'."\n";
+    }
+
     /**
      * @covers ::parse
      */
@@ -53,8 +58,44 @@ final class FuriganaEscapeTest extends TestCase
 
         $converter = new MarkdownConverter($environment);
 
-        $expect = '<p>｜この拡張<ruby>機能<rt>きのう</rt></ruby>は素晴らしい</p>'."\n";
+        $expect = $this->makeExpect('｜この拡張<ruby>機能<rt>きのう</rt></ruby>は素晴らしい');
         $actual = $converter->convert('\｜この拡張｜機能《きのう》は素晴らしい')->getContent();
+
+        $this->assertSame($expect, $actual);
+    }
+
+    /**
+     * @covers ::parse
+     */
+    public function testEscapeRubyTextDelimiter(): void
+    {
+        $environment = new Environment($this::DEFAULT_RULE);
+
+        $environment->addExtension(new CommonMarkCoreExtension())
+                    ->addExtension(new FuriganaExtension());
+
+        $converter = new MarkdownConverter($environment);
+
+        $expect = $this->makeExpect('この拡張《<ruby>機能<rt>きのう</rt></ruby>は素晴らしい');
+        $actual = $converter->convert('この拡張\《機能《きのう》は素晴らしい')->getContent();
+
+        $this->assertSame($expect, $actual);
+    }
+
+    /**
+     * @covers ::parse
+     */
+    public function testEscapeCloseDelimiter(): void
+    {
+        $environment = new Environment($this::DEFAULT_RULE);
+
+        $environment->addExtension(new CommonMarkCoreExtension())
+                    ->addExtension(new FuriganaExtension());
+
+        $converter = new MarkdownConverter($environment);
+
+        $expect = $this->makeExpect('この<ruby>拡張機能<rt>き》のう</rt></ruby>は素晴らしい');
+        $actual = $converter->convert('この拡張機能《き\》のう》は素晴らしい')->getContent();
 
         $this->assertSame($expect, $actual);
     }
