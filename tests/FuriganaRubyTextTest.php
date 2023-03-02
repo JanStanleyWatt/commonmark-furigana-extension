@@ -95,38 +95,6 @@ final class FuriganaRubyTextTest extends TestCase
     }
 
     /**
-     * @covers :: digRubyText
-     */
-    public function testCountToLengthRubyText(): void
-    {
-        $environment = new Environment($this::DEFAULT_RULE);
-
-        $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new FuriganaExtension());
-
-        $converter = new MarkdownConverter($environment);
-
-        $expect = 8;
-
-        $document_1 = $converter->convert('この拡張機能《かくちょうきのう》は素晴らしい')->getDocument();
-        $actual_1 = $this->digData($document_1);
-
-        $document_2 = $converter->convert('この拡張機能《***かくちょうきのう***》は素晴らしい')->getDocument();
-        $actual_2 = $this->digData($document_2);
-
-        $document_3 = $converter->convert('この拡張機能《`かくちょうきのう`》は素晴らしい')->getDocument();
-        $actual_3 = $this->digData($document_3);
-
-        $document_4 = $converter->convert('この拡張機能《**かくちょう*きのう***》は素晴らしい')->getDocument();
-        $actual_4 = $this->digData($document_4);
-
-        $this->assertSame($expect, $actual_1, 'Failed simple pattern');
-        $this->assertSame($expect, $actual_2, 'Failed nested pattern');
-        $this->assertSame($expect, $actual_3, 'Failed branching pattern');
-        $this->assertSame($expect, $actual_4, 'Failed <code> pattern');
-    }
-
-    /**
      * @covers ::sutegana
      */
     public function testSutegana(): void

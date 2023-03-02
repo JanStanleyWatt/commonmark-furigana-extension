@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace JSW\Furigana;
 
 use JSW\Furigana\Delimiter\FuriganaDelimiterProcesser;
-use JSW\Furigana\Delimiter\RubyTextDelimiterProcesser;
 use JSW\Furigana\Node\Ruby;
 use JSW\Furigana\Node\RubyParentheses;
 use JSW\Furigana\Node\RubyText;
@@ -64,8 +63,7 @@ final class FuriganaExtension implements ConfigurableExtensionInterface
         }
 
         // 区切り文字プロセサ登録
-        $environment->addDelimiterProcessor(new FuriganaDelimiterProcesser())
-                    ->addDelimiterProcessor(new RubyTextDelimiterProcesser());
+        $environment->addDelimiterProcessor(new FuriganaDelimiterProcesser());
 
         // レンダラ登録
         $environment->addRenderer(RubyText::class, new RubyTextRenderer())
