@@ -18,20 +18,23 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Delimiter;
+namespace JSW\Furigana\Delimiter;
 
-use JSW\Hurigana\Node\RubyText;
+use JSW\Furigana\Node\Ruby;
+use JSW\Furigana\Node\RubyParentheses;
+use JSW\Furigana\Node\RubyText;
 use League\CommonMark\Delimiter\DelimiterInterface;
 use League\CommonMark\Delimiter\Processor\DelimiterProcessorInterface;
 use League\CommonMark\Node\Inline\AbstractStringContainer;
-use League\CommonMark\Node\Node;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
 
-final class RubyTextDelimiterProcesser implements DelimiterProcessorInterface, ConfigurationAwareInterface
+/**
+ * TODO: #17 モノルビ機能を実装できないか試してみる.
+ */
+class FuriganaDelimiterProcesser implements DelimiterProcessorInterface, ConfigurationAwareInterface
 {
     private ConfigurationInterface $config;
-    private int $char_length = 0;
 
     public function setConfiguration(ConfigurationInterface $configuration): void
     {
@@ -61,52 +64,47 @@ final class RubyTextDelimiterProcesser implements DelimiterProcessorInterface, C
         return str_replace($ruby_text_Sutegana['from'], $ruby_text_Sutegana['to'], $ruby);
     }
 
-    /**
-     * @TODO: #16 深度制限を実装すべきか検討する
-     */
-    private function digRubyText(Node $ruby_node)
-    {
-        $ruby_node->data->set('is_digged', true);
-
-        // 深さ優先検索でルビ文字を見つける
-        foreach ($ruby_node->iterator() as $node) {
-            if ($node->data->get('is_digged', false)) {
-                continue;
-            }
-            if ($node->hasChildren()) {
-                $this->digRubyText($node);
-            } elseif ($node instanceof AbstractStringContainer) {
-                $node->data->set('is_digged', true);
-                $tmp = $node->getLiteral();
-                $this->char_length += mb_strlen($tmp);
-
-                if ($this->config->get('hurigana/use_sutegana')) {
-                    $node->setLiteral($this->sutegana($tmp));
-                }
-            }
-        }
-    }
-
     public function process(AbstractStringContainer $opener, AbstractStringContainer $closer, int $delimiterUse): void
     {
-        $node = new RubyText();
-        $this->char_length = 0;
+        $node = new Ruby();
 
         $next = $opener->next();
-        while (null !== $next && $next !== $closer) {
+        while (null !== $next && !$next instanceof RubyText) {
             $tmp = $next->next();
             $node->appendChild($next);
             $next = $tmp;
         }
 
-        $this->digRubyText($node);
-        $node->data->set('text_length', $this->char_length);
+        $rt = $next;
+        $next = $next->next();
+        $use_sutegana = $this->config->get('furigana/use_sutegana');
+        while (null !== $next && $next !== $closer) {
+            $tmp = $next->next();
+
+            if ($use_sutegana && $next instanceof AbstractStringContainer) {
+                $next->setLiteral($this->sutegana($next->getLiteral()));
+            }
+
+            $rt->appendChild($next);
+            $next = $tmp;
+        }
+
+        $node->appendChild($rt);
+
+        $use_rp_tag = $this->config->get('furigana/use_rp_tag');
+        foreach ($node->iterator() as $it) {
+            if ($use_rp_tag && $it instanceof RubyText) {
+                $it->insertBefore(new RubyParentheses('('));
+                $it->insertAfter(new RubyParentheses(')'));
+            }
+        }
+
         $opener->insertAfter($node);
     }
 
     public function getOpeningCharacter(): string
     {
-        return '《';
+        return '｜';
     }
 
     public function getClosingCharacter(): string

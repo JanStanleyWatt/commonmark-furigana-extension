@@ -18,28 +18,13 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Node;
+namespace JSW\Furigana\Node;
 
 use League\CommonMark\Node\Inline\AbstractInline;
-use League\CommonMark\Node\Inline\DelimitedInterface;
 
 /**
  * <rt>を担当するノード。
  */
-class RubyText extends AbstractInline implements DelimitedInterface
+final class RubyText extends AbstractInline
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function getOpeningDelimiter(): string
-    {
-        return '《';
-    }
-
-    public function getClosingDelimiter(): string
-    {
-        return '》';
-    }
 }

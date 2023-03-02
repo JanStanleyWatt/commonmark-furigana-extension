@@ -18,33 +18,29 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana;
+namespace JSW\Furigana;
 
-use JSW\Hurigana\Delimiter\HuriganaDelimiterProcesser;
-use JSW\Hurigana\Delimiter\RubyTextDelimiterProcesser;
-use JSW\Hurigana\Event\HuriganaPostRenderDispatcher;
-use JSW\Hurigana\Node\RubyParentheses;
-use JSW\Hurigana\Node\RubyText;
-use JSW\Hurigana\Node\Ruby;
-use JSW\Hurigana\Parser\HuriganaCloseParser;
-use JSW\Hurigana\Parser\HuriganaEscapeParser;
-use JSW\Hurigana\Parser\HuriganaOpenParser;
-use JSW\Hurigana\Parser\RubyTextParser;
-use JSW\Hurigana\Renderer\RubyParenthesesRenderer;
-use JSW\Hurigana\Renderer\RubyTextRenderer;
-use JSW\Hurigana\Renderer\RubyRenderer;
-use JSW\Hurigana\Util\HuriganaKugiri;
+use JSW\Furigana\Delimiter\FuriganaDelimiterProcesser;
+use JSW\Furigana\Node\Ruby;
+use JSW\Furigana\Node\RubyParentheses;
+use JSW\Furigana\Node\RubyText;
+use JSW\Furigana\Parser\FuriganaCloseParser;
+use JSW\Furigana\Parser\FuriganaOpenParser;
+use JSW\Furigana\Parser\RubyTextParser;
+use JSW\Furigana\Renderer\RubyParenthesesRenderer;
+use JSW\Furigana\Renderer\RubyRenderer;
+use JSW\Furigana\Renderer\RubyTextRenderer;
+use JSW\Furigana\Util\FuriganaKugiri;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
-use League\CommonMark\Event\DocumentRenderedEvent;
 use League\CommonMark\Extension\ConfigurableExtensionInterface;
 use League\Config\ConfigurationBuilderInterface;
 use Nette\Schema\Expect;
 
-final class HuriganaExtension implements ConfigurableExtensionInterface
+final class FuriganaExtension implements ConfigurableExtensionInterface
 {
     public function configureSchema(ConfigurationBuilderInterface $builder): void
     {
-        $builder->addSchema('hurigana',
+        $builder->addSchema('furigana',
             Expect::structure([
                 'use_sutegana' => Expect::bool()->default(false),
                 'use_rp_tag' => Expect::bool()->default(false),
@@ -54,21 +50,20 @@ final class HuriganaExtension implements ConfigurableExtensionInterface
 
     public function register(EnvironmentBuilderInterface $environment): void
     {
-        $patterns = new HuriganaKugiri();
+        $patterns = new FuriganaKugiri();
         $priority = 100;
 
         // インラインパーサ登録
-        $environment->addInlineParser(new HuriganaCloseParser(), $priority)
+        $environment->addInlineParser(new FuriganaCloseParser(), $priority)
                     ->addInlineParser(new RubyTextParser(), $priority);
-        // JSW\Hurigana\Util\HuriganaKugiriのパターンをパーサに注入する
+        // JSW\Furigana\Util\FuriganaKugiriのパターンをパーサに注入する
         foreach ($patterns->getKugiri() as $pattern) {
-            $environment->addInlineParser(new HuriganaOpenParser($pattern), $priority);
+            $environment->addInlineParser(new FuriganaOpenParser($pattern), $priority);
             --$priority;
         }
 
         // 区切り文字プロセサ登録
-        $environment->addDelimiterProcessor(new HuriganaDelimiterProcesser())
-                    ->addDelimiterProcessor(new RubyTextDelimiterProcesser());
+        $environment->addDelimiterProcessor(new FuriganaDelimiterProcesser());
 
         // レンダラ登録
         $environment->addRenderer(RubyText::class, new RubyTextRenderer())

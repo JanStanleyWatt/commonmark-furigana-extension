@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Renderer;
+namespace JSW\Furigana\Renderer;
 
-use JSW\Hurigana\Node\RubyText;
+use JSW\Furigana\Node\RubyText;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;

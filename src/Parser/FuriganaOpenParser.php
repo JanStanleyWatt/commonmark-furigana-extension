@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Parser;
+namespace JSW\Furigana\Parser;
 
 use League\CommonMark\Delimiter\Delimiter;
 use League\CommonMark\Node\Inline\Text;
@@ -26,7 +26,7 @@ use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
 
-final class HuriganaOpenParser implements InlineParserInterface
+final class FuriganaOpenParser implements InlineParserInterface
 {
     private string $regex_pattern;
 
@@ -62,7 +62,7 @@ final class HuriganaOpenParser implements InlineParserInterface
         $node = new Text('｜', ['delim' => true]);
         $container->appendChild($node);
 
-        $delimiter = new Delimiter('｜', 1, $node, true, true);
+        $delimiter = new Delimiter('｜', 1, $node, true, false);
         $inlineContext->getDelimiterStack()->push($delimiter);
 
         return true;

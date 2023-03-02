@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Parser;
+namespace JSW\Furigana\Parser;
 
 use League\CommonMark\Delimiter\Delimiter;
 use League\CommonMark\Environment\EnvironmentAwareInterface;
@@ -28,7 +28,7 @@ use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
 
-final class HuriganaCloseParser implements InlineParserInterface, EnvironmentAwareInterface
+final class FuriganaCloseParser implements InlineParserInterface, EnvironmentAwareInterface
 {
     private EnvironmentInterface $environment;
 
@@ -57,17 +57,11 @@ final class HuriganaCloseParser implements InlineParserInterface, EnvironmentAwa
             return false;
         }
 
-        // <rt>タグを閉める
+        // <ruby>タグの閉め区切り文字「》」を挿入し、同時に内部の区切り文字の処理を清算する
         $cursor->advance();
-        $node_rt = new Text('》', ['delim' => true]);
-        $container->appendChild($node_rt);
-        $delimiter_rt = new Delimiter('》', 1, $node_rt, false, true);
-        $inlineContext->getDelimiterStack()->push($delimiter_rt);
-
-        // <ruby>タグの閉め区切り文字「｜」を挿入し、同時に内部の区切り文字の処理を清算する
-        $node_ruby = new Text('｜', ['delim' => true]);
-        $container->appendChild($node_ruby);
-        $delimiter_ruby = new Delimiter('｜', 1, $node_ruby, true, true);
+        $node = new Text('》', ['delim' => true]);
+        $container->appendChild($node);
+        $delimiter_ruby = new Delimiter('》', 1, $node, false, true);
         $inlineContext->getDelimiterStack()->push($delimiter_ruby);
 
         $stack = $inlineContext->getDelimiterStack();

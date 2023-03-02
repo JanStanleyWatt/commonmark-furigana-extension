@@ -20,21 +20,21 @@ declare(strict_types=1);
 
 namespace JSW\Tests;
 
-use JSW\Hurigana\HuriganaExtension;
+use JSW\Furigana\FuriganaExtension;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass \JSW\Hurigana\Delimiter\HuriganaDelimiterProcesser
+ * @coversDefaultClass \JSW\Furigana\Delimiter\FuriganaDelimiterProcesser
  *
- * @group hurigana
+ * @group furigana
  */
-final class HuriganaTest extends TestCase
+final class FuriganaTest extends TestCase
 {
     private const DEFAULT_RULE = [
-        'hurigana' => [
+        'furigana' => [
             'use_sutegana' => false,
             'use_rp_tag' => false,
         ],
@@ -46,17 +46,17 @@ final class HuriganaTest extends TestCase
     }
 
     /**
-     * @covers \JSW\Hurigana\Util\HuriganaKugiri::getKugiri
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::parse
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::__construct
+     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
      */
     public function testRubySeparateDelimited(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
 
         $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new HuriganaExtension());
+                    ->addExtension(new FuriganaExtension());
 
         $converter = new MarkdownConverter($environment);
 
@@ -67,17 +67,17 @@ final class HuriganaTest extends TestCase
     }
 
     /**
-     * @covers \JSW\Hurigana\Util\HuriganaKugiri::getKugiri
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::parse
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::__construct
+     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
      */
     public function testRubySeparateKanji(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
 
         $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new HuriganaExtension());
+                    ->addExtension(new FuriganaExtension());
 
         $converter = new MarkdownConverter($environment);
 
@@ -88,17 +88,17 @@ final class HuriganaTest extends TestCase
     }
 
     /**
-     * @covers \JSW\Hurigana\Util\HuriganaKugiri::getKugiri
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::parse
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::__construct
+     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
      */
     public function testRubySeparateZenkakuAlphabet(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
 
         $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new HuriganaExtension());
+                    ->addExtension(new FuriganaExtension());
 
         $converter = new MarkdownConverter($environment);
 
@@ -109,17 +109,17 @@ final class HuriganaTest extends TestCase
     }
 
     /**
-     * @covers \JSW\Hurigana\Util\HuriganaKugiri::getKugiri
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::parse
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::__construct
+     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
      */
     public function testRubySeparateHankakuAlphabet(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
 
         $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new HuriganaExtension());
+                    ->addExtension(new FuriganaExtension());
 
         $converter = new MarkdownConverter($environment);
 
@@ -130,17 +130,17 @@ final class HuriganaTest extends TestCase
     }
 
     /**
-     * @covers \JSW\Hurigana\Util\HuriganaKugiri::getKugiri
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::parse
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::__construct
+     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
      */
     public function testRubySeparateZenkakuKatakana(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
 
         $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new HuriganaExtension());
+                    ->addExtension(new FuriganaExtension());
 
         $converter = new MarkdownConverter($environment);
 
@@ -151,17 +151,17 @@ final class HuriganaTest extends TestCase
     }
 
     /**
-     * @covers \JSW\Hurigana\Util\HuriganaKugiri::getKugiri
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::parse
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::__construct
+     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
      */
     public function testRubySeparateHankakuKatakana(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
 
         $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new HuriganaExtension());
+                    ->addExtension(new FuriganaExtension());
 
         $converter = new MarkdownConverter($environment);
 
@@ -172,17 +172,17 @@ final class HuriganaTest extends TestCase
     }
 
     /**
-     * @covers \JSW\Hurigana\Util\HuriganaKugiri::getKugiri
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::parse
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Hurigana\Parser\HuriganaOpenParser::__construct
+     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
+     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
      */
     public function testRubySeparateHiragana(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
 
         $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new HuriganaExtension());
+                    ->addExtension(new FuriganaExtension());
 
         $converter = new MarkdownConverter($environment);
 
@@ -198,13 +198,13 @@ final class HuriganaTest extends TestCase
     public function testRubyParentheses(): void
     {
         $environment = new Environment([
-            'hurigana' => [
+            'furigana' => [
                 'use_rp_tag' => true,
             ],
         ]);
 
         $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new HuriganaExtension());
+                    ->addExtension(new FuriganaExtension());
 
         $converter = new MarkdownConverter($environment);
 

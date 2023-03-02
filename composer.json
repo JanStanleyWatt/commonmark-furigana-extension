@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "JSW\\Hurigana\\": "src/"
+            "JSW\\Furigana\\": "src/"
         }
     },
     "autoload-dev": {
