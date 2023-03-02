@@ -40,6 +40,6 @@ class Ruby extends AbstractInline implements DelimitedInterface
 
     public function getClosingDelimiter(): string
     {
-        return '｜';
+        return '》';
     }
 }

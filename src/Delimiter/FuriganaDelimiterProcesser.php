@@ -29,9 +29,6 @@ use League\CommonMark\Node\Inline\AbstractStringContainer;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
 
-/**
- * TODO: #17 モノルビ機能を実装できないか試してみる.
- */
 class FuriganaDelimiterProcesser implements DelimiterProcessorInterface, ConfigurationAwareInterface
 {
     private ConfigurationInterface $config;
@@ -56,8 +53,10 @@ class FuriganaDelimiterProcesser implements DelimiterProcessorInterface, Configu
     {
         $ruby_text_Sutegana = [
             // 小書き文字をfromに、並字をtoに置く。ペアの要素順は合わせること
-            'from' => ['ぁ', 'ぃ', 'ぅ', 'ぇ', 'ぉ', 'っ', 'ゃ', 'ゅ', 'ょ', 'ゎ', 'ァ', 'ィ', 'ゥ', 'ェ', 'ォ', 'ヵ', 'ヶ', 'ッ', 'ャ', 'ュ', 'ョ', 'ヮ'],
-            'to' => ['あ', 'い', 'う', 'え', 'お', 'つ', 'や', 'ゆ', 'よ', 'わ', 'ア', 'イ', 'ウ', 'エ', 'オ', 'カ', 'ケ', 'ツ', 'ヤ', 'ユ', 'ヨ', 'ワ'],
+            'from' => ['ぁ', 'ぃ', 'ぅ', 'ぇ', 'ぉ', 'っ', 'ゃ', 'ゅ', 'ょ', 'ゎ',
+                       'ァ', 'ィ', 'ゥ', 'ェ', 'ォ', 'ヵ', 'ヶ', 'ッ', 'ャ', 'ュ', 'ョ', 'ヮ'],
+            'to' => ['あ', 'い', 'う', 'え', 'お', 'つ', 'や', 'ゆ', 'よ', 'わ',
+                     'ア', 'イ', 'ウ', 'エ', 'オ', 'カ', 'ケ', 'ツ', 'ヤ', 'ユ', 'ヨ', 'ワ'],
             // 小さいクなどは文字化けしてしまった
         ];
 
@@ -119,6 +118,14 @@ class FuriganaDelimiterProcesser implements DelimiterProcessorInterface, Configu
 
     public function getDelimiterUse(DelimiterInterface $opener, DelimiterInterface $closer): int
     {
-        return 1;
+        // RubyTextノードが存在するかの検証(RubyTextノードが挿入されてるならば「《」がDelimiterStackに存在するはず)
+        while (null !== $closer && $closer !== $opener) {
+            if ('《' === $closer->getChar()) {
+                return 1;
+            }
+            $closer = $closer->getPrevious();
+        }
+        // RubyTextノードが無い場合はprocessメソッドを実行しない
+        return 0;
     }
 }
