@@ -35,6 +35,7 @@ final class HuriganaEscapeParser implements InlineParserInterface
     public function parse(InlineParserContext $inlineContext): bool
     {
         $cursor = $inlineContext->getCursor();
+        $next = $cursor->peek();
 
         if ('｜' === $cursor->peek() || '《' === $cursor->peek()) {
             $inlineContext->getContainer()->appendChild(new Text($cursor->peek()));
