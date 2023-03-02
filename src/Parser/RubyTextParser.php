@@ -39,7 +39,7 @@ final class RubyTextParser implements InlineParserInterface
         $cursor = $inlineContext->getCursor();
         $container = $inlineContext->getContainer();
 
-        // 区切り文字スタックに開き区切り文字「｜」が無い、または機能してない場合は処理を飛ばす
+        // 不正な構文を弾く
         $opener = $inlineContext->getDelimiterStack()->searchByCharacter('｜');
         if (null === $opener) {
             return false;
@@ -47,6 +47,9 @@ final class RubyTextParser implements InlineParserInterface
         if (!$opener->isActive()) {
             $inlineContext->getDelimiterStack()->removeDelimiter($opener);
 
+            return false;
+        }
+        if (!preg_match('/^《.*?》/u', $cursor->getRemainder())) {
             return false;
         }
 
