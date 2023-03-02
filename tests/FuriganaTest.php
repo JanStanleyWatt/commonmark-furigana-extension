@@ -193,7 +193,7 @@ final class FuriganaTest extends TestCase
     }
 
     /**
-     * @covers ::useRPTag
+     * @covers ::process
      */
     public function testRubyParentheses(): void
     {

@@ -21,11 +21,9 @@ declare(strict_types=1);
 namespace JSW\Tests;
 
 use JSW\Furigana\FuriganaExtension;
-use JSW\Furigana\Node\RubyText;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
-use League\CommonMark\Node\Block\Document;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -45,16 +43,6 @@ final class FuriganaRubyTextTest extends TestCase
     private function makeExpect(string $expect)
     {
         return '<p>'.$expect.'</p>'."\n";
-    }
-
-    private function digData(Document $document): int
-    {
-        $answer = -1;
-        foreach ($document->iterator() as $node) {
-            if ($node instanceof RubyText) {
-                return $node->data->get('text_length', -1);
-            }
-        }
     }
 
     /**
