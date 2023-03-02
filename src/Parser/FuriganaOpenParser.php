@@ -62,7 +62,7 @@ final class FuriganaOpenParser implements InlineParserInterface
         $node = new Text('｜', ['delim' => true]);
         $container->appendChild($node);
 
-        $delimiter = new Delimiter('｜', 1, $node, true, true);
+        $delimiter = new Delimiter('｜', 1, $node, true, false);
         $inlineContext->getDelimiterStack()->push($delimiter);
 
         return true;
