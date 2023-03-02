@@ -114,7 +114,7 @@ class FuriganaKugiri
          *     "｜" で区切ることになる状況が多いのではないだろうか。これを踏まえて
          *     パターンの優先順位は最後にしておく。
          */
-        'hiragana' => '((?:\p{sc=Hiragana}+[゛゜]*)+)',
+        'hiragana' => '((?:[\x{3040}-\x{3096}\x{309D}-\x{309F}]+[゛゜]*)+)',
     ];
 
     public function getKugiri(): array
