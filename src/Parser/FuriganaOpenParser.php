@@ -55,6 +55,11 @@ final class FuriganaOpenParser implements InlineParserInterface
         $cursor = $inlineContext->getCursor();
         $container = $inlineContext->getContainer();
 
+        // 対応する閉じ括弧が無い場合は処理を継続しない
+        if (!preg_match('/[^《]+?《.*?》/u', $cursor->getRemainder())) {
+            return false;
+        }
+
         if ('｜' === $cursor->getCurrentCharacter()) {
             $inlineContext->getCursor()->advance();
         }
