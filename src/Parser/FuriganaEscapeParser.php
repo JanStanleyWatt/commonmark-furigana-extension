@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-namespace JSW\Hurigana\Parser;
+namespace JSW\Furigana\Parser;
 
 use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
 
-final class HuriganaEscapeParser implements InlineParserInterface
+final class FuriganaEscapeParser implements InlineParserInterface
 {
     public function getMatchDefinition(): InlineParserMatch
     {
@@ -37,9 +37,10 @@ final class HuriganaEscapeParser implements InlineParserInterface
         $cursor = $inlineContext->getCursor();
         $next = $cursor->peek();
 
-        if ('｜' === $cursor->peek() || '《' === $cursor->peek()) {
-            $inlineContext->getContainer()->appendChild(new Text($cursor->peek()));
+        if ('｜' === $next || '《' === $next || '》' === $next) {
+            $inlineContext->getContainer()->appendChild(new Text($next));
             $cursor->advanceBy(2);
+
             return true;
         }
 

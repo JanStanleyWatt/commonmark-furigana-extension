@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace JSW\Tests;
 
-use JSW\Hurigana\HuriganaExtension;
+use JSW\Furigana\FuriganaExtension;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
@@ -32,7 +32,7 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  * @group jisage
  */
-final class HuriganaSimpleTest extends TestCase
+final class FuriganaSimpleTest extends TestCase
 {
     private const DEFAULT_RULE = [
             'hurigana' => [
@@ -49,7 +49,7 @@ final class HuriganaSimpleTest extends TestCase
         $environment = new Environment($this::DEFAULT_RULE);
 
         $environment->addExtension(new CommonMarkCoreExtension())
-                    ->addExtension(new HuriganaExtension());
+                    ->addExtension(new FuriganaExtension());
 
         $converter = new MarkdownConverter($environment);
 

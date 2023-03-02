@@ -25,6 +25,7 @@ use JSW\Furigana\Node\Ruby;
 use JSW\Furigana\Node\RubyParentheses;
 use JSW\Furigana\Node\RubyText;
 use JSW\Furigana\Parser\FuriganaCloseParser;
+use JSW\Furigana\Parser\FuriganaEscapeParser;
 use JSW\Furigana\Parser\FuriganaOpenParser;
 use JSW\Furigana\Parser\RubyTextParser;
 use JSW\Furigana\Renderer\RubyParenthesesRenderer;
@@ -55,6 +56,7 @@ final class FuriganaExtension implements ConfigurableExtensionInterface
 
         // インラインパーサ登録
         $environment->addInlineParser(new FuriganaCloseParser(), $priority)
+                    ->addInlineParser(new FuriganaEscapeParser(), $priority)
                     ->addInlineParser(new RubyTextParser(), $priority);
         // JSW\Furigana\Util\FuriganaKugiriのパターンをパーサに注入する
         foreach ($patterns->getKugiri() as $pattern) {
