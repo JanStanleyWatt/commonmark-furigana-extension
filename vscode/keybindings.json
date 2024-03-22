@@ -11,10 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
 // limitations under the License.
-
 [
     // 使い方: こちらの内容を使用中のキーバインドファイルにコピペしてください。
-
     {
         // keybindings.jsonの設定を有効にすると、Ctrl+rでスニペット「aozora_ruby」を実行するようになる
         // 条件は以下の3つ:
@@ -40,6 +38,6 @@
             "langId": "markdown",
             "name": "aozora_ruby_separate"
         },
-        "when": "editorTextFocus && editorHasSelection　&& !editorReadonly && editorLangId == 'markdown'"
+        "when": "editorTextFocus && editorHasSelection && !editorReadonly && editorLangId == 'markdown'"
     }
 ]

@@ -11,11 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
 // limitations under the License.
-
 {
-    
     // 使い方: こちらの内容を使用中のMarkdown用スニペットファイルにコピペしてください。
-    
     // Markdownファイルの編集中にスニペット「aozora_ruby」を実行すると、カーソルを挟むようにルビ記号（《》）が挿入される
     // ルビ文字を入力後にtabキーを押下することで、ルビ記号の直後にカーソルが移動するようになる
     "aozora_ruby_separate": {
@@ -25,7 +22,6 @@
         ],
         "description": "enclose Aozora ruby and sepalater"
     },
-    
     // 文字を選択している状態でスニペット「aozora_ruby_separate」を実行すると、選択した文字を親文字と認識し、親文字の直前に区切り文字（｜）を、直後にルビ記号（《》）が挿入される
     // カーソルの振る舞いは「aozora_ruby」に準ずる
     "aozora_ruby": {
