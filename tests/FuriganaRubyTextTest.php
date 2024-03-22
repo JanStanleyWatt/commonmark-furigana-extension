@@ -24,13 +24,18 @@ use JSW\Furigana\FuriganaExtension;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversFunction;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass \JSW\Furigana\Delimiter\RubyTextDelimiterProcesser
- *
- * @group rubytext
- */
+#[CoversClass('\JSW\Furigana\Delimiter\RubyTextDelimiterProcesser')]
+#[CoversFunction('\JSW\Furigana\Parser\RubyTextParser::getMatchDefinition')]
+#[CoversFunction('\JSW\Furigana\Parser\RubyTextParser::parse')]
+#[CoversFunction('::process')]
+#[CoversFunction('::sutegana')]
+#[Group('rubytext')]
 final class FuriganaRubyTextTest extends TestCase
 {
     private const DEFAULT_RULE = [
@@ -45,10 +50,7 @@ final class FuriganaRubyTextTest extends TestCase
         return '<p>'.$expect.'</p>'."\n";
     }
 
-    /**
-     * @covers \JSW\Furigana\Parser\RubyTextParser::getMatchDefinition
-     * @covers \JSW\Furigana\Parser\RubyTextParser::parse
-     */
+    #[Test]
     public function testSimpleRubyText(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -64,9 +66,7 @@ final class FuriganaRubyTextTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @covers :: process
-     */
+    #[Test]
     public function testEmphasisInRubyText(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -82,9 +82,7 @@ final class FuriganaRubyTextTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @covers ::sutegana
-     */
+    #[Test]
     public function testSutegana(): void
     {
         $environment = new Environment([

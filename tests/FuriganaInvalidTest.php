@@ -24,13 +24,17 @@ use JSW\Furigana\FuriganaExtension;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversFunction;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass \JSW\Furigana\Parser\FuriganaOpenParser
- *
- * @group invalid
- */
+#[CoversClass('\JSW\Hurigana\Parser\FuriganaOpenParser')]
+#[CoversFunction('parse')]
+#[CoversFunction('\JSW\Furigana\Delimiter\FuriganaDelimiterProcesser::process')]
+#[CoversFunction('\JSW\Furigana\Parser\RubyTextParser::parse')]
+#[Group('invalid')]
 final class FuriganaInvalidTest extends TestCase
 {
     private const DEFAULT_RULE = [
@@ -45,9 +49,7 @@ final class FuriganaInvalidTest extends TestCase
         return '<p>'.$expect.'</p>'."\n";
     }
 
-    /**
-     * @covers ::parse
-     */
+    #[Test]
     public function testEmptyParentText(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -63,9 +65,7 @@ final class FuriganaInvalidTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @covers ::parse
-     */
+    #[Test]
     public function testEmptyRubyTextDelimit(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -81,9 +81,7 @@ final class FuriganaInvalidTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @covers  \JSW\Furigana\Delimiter\FuriganaDelimiterProcesser::process
-     */
+    #[Test]
     public function testMissingOpenRubyTextDelimit(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -103,9 +101,7 @@ final class FuriganaInvalidTest extends TestCase
         $this->assertSame($expect_2, $actual_2, 'Not existing open delimit is failed');
     }
 
-    /**
-     * @covers  \JSW\Furigana\Parser\RubyTextParser::parse
-     */
+    #[Test]
     public function testMissingCloseRubyTextDelimit(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
