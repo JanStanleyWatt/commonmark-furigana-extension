@@ -24,14 +24,16 @@ use JSW\Furigana\FuriganaExtension;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversFunction;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass \JSW\Hurigana\Parser\FuriganaEscapeParser
- *
- * @group unit
- * @group jisage
- */
+#[CoversClass('\JSW\Hurigana\Parser\FuriganaEscapeParser')]
+#[CoversFunction('parse')]
+#[Group('unit')]
+#[Group('jisage')]
 final class FuriganaEscapeTest extends TestCase
 {
     private const DEFAULT_RULE = [
@@ -46,9 +48,8 @@ final class FuriganaEscapeTest extends TestCase
         return '<p>'.$expect.'</p>'."\n";
     }
 
-    /**
-     * @covers ::parse
-     */
+
+    #[Test]
     public function testEscapeOpenDelimiter(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -64,9 +65,8 @@ final class FuriganaEscapeTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @covers ::parse
-     */
+
+    #[Test]
     public function testEscapeRubyTextDelimiter(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -82,9 +82,7 @@ final class FuriganaEscapeTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @covers ::parse
-     */
+    #[Test]
     public function testEscapeCloseDelimiter(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);

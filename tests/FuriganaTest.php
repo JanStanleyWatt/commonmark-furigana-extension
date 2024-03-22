@@ -24,13 +24,19 @@ use JSW\Furigana\FuriganaExtension;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversFunction;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass \JSW\Furigana\Delimiter\FuriganaDelimiterProcesser
- *
- * @group furigana
- */
+#[CoversClass('\JSW\Furigana\Delimiter\FuriganaDelimiterProcesser')]
+#[CoversFunction('::process')]
+#[CoversFunction('\JSW\Furigana\Util\FuriganaKugiri::getKugiri')]
+#[CoversFunction('\JSW\Furigana\Parser\FuriganaOpenParser::parse')]
+#[CoversFunction('\JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition')]
+#[CoversFunction('\JSW\Furigana\Parser\FuriganaOpenParser::__construct')]
+#[Group('furigana')]
 final class FuriganaTest extends TestCase
 {
     private const DEFAULT_RULE = [
@@ -45,12 +51,7 @@ final class FuriganaTest extends TestCase
         return '<p>'.$expect.'</p>'."\n";
     }
 
-    /**
-     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
-     */
+    #[Test]
     public function testRubySeparateDelimited(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -66,12 +67,7 @@ final class FuriganaTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
-     */
+    #[Test]
     public function testRubySeparateKanji(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -87,12 +83,7 @@ final class FuriganaTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
-     */
+    #[Test]
     public function testRubySeparateZenkakuAlphabet(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -108,12 +99,7 @@ final class FuriganaTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
-     */
+    #[Test]
     public function testRubySeparateHankakuAlphabet(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -129,12 +115,7 @@ final class FuriganaTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
-     */
+    #[Test]
     public function testRubySeparateZenkakuKatakana(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -150,12 +131,7 @@ final class FuriganaTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
-     */
+    #[Test]
     public function testRubySeparateHankakuKatakana(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -171,12 +147,7 @@ final class FuriganaTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @covers \JSW\Furigana\Util\FuriganaKugiri::getKugiri
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::parse
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::getMatchDefinition
-     * @covers \JSW\Furigana\Parser\FuriganaOpenParser::__construct
-     */
+    #[Test]
     public function testRubySeparateHiragana(): void
     {
         $environment = new Environment($this::DEFAULT_RULE);
@@ -192,9 +163,7 @@ final class FuriganaTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @covers ::process
-     */
+    #[Test]
     public function testRubyParentheses(): void
     {
         $environment = new Environment([
